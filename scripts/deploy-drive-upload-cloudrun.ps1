@@ -16,10 +16,10 @@ $serviceJson = Get-Content -Raw $ServiceAccountJsonPath | ConvertFrom-Json | Con
 $tmpEnv = Join-Path $env:TEMP "ck-drive-env.yaml"
 
 $escapedJson = $serviceJson -replace "'", "''"
-@(
-  "DRIVE_ROOT_FOLDER_ID: \"$DriveFolderId\"",
-  "DRIVE_SERVICE_ACCOUNT_JSON: '$escapedJson'"
-) | Set-Content -Path $tmpEnv
+@"
+DRIVE_ROOT_FOLDER_ID: "$DriveFolderId"
+DRIVE_SERVICE_ACCOUNT_JSON: '$escapedJson'
+"@ | Set-Content -Path $tmpEnv
 
 Write-Output "Deploying Cloud Run service $ServiceName ..."
 gcloud run deploy $ServiceName `

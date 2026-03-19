@@ -9,7 +9,9 @@ It provides role-aware flows for students, teachers, and admins with multi-page 
 - Vanilla JavaScript, HTML, CSS
 - Firebase Authentication
 - Cloud Firestore
-- Google Drive upload via Firebase Cloud Functions
+- Firebase Storage upload (default)
+- Cloudinary upload (optional)
+- Optional Google Drive upload via external API/Cloud Functions
 - Vitest + JSDOM
 
 ## Project Structure
@@ -115,7 +117,26 @@ npm run build
 firebase deploy --only hosting --project <firebase-project-id>
 ```
 
-## Google Drive Upload Setup (Replace Firebase Storage)
+## File Upload Modes
+
+Default mode (recommended when you do not want billing):
+
+- Keep `VITE_DRIVE_UPLOAD_ENDPOINT` empty.
+- Client uploads directly to Firebase Storage.
+
+Cloudinary mode (no backend billing, recommended if you want CDN links):
+
+- Set `VITE_CLOUDINARY_CLOUD_NAME`.
+- Create an **unsigned upload preset** in Cloudinary dashboard.
+- Set `VITE_CLOUDINARY_UPLOAD_PRESET`.
+- Do not put `CLOUDINARY_API_SECRET` in frontend code/env.
+
+Optional mode (Google Drive backend):
+
+- Set `VITE_DRIVE_UPLOAD_ENDPOINT` to your upload API URL.
+- Client uploads through authenticated backend API and backend writes to Drive.
+
+## Google Drive Upload Setup (Optional)
 
 This project uploads teacher files to Google Drive through a secure Cloud Function (`uploadToDrive`).
 
@@ -197,11 +218,11 @@ npm run build
 firebase deploy --only functions,hosting --project <firebase-project-id>
 ```
 
-### 6. Local testing notes
+### 6. Runtime behavior
 
-- If `VITE_DRIVE_UPLOAD_ENDPOINT` is set, client will always use that endpoint.
-- If not set, local browser falls back to function emulator URL `http://127.0.0.1:5001/vuongquoclophoc/us-central1/uploadToDrive`.
-- Production must set `VITE_DRIVE_UPLOAD_ENDPOINT` unless you add hosting rewrite to deployed function.
+- If both `VITE_CLOUDINARY_CLOUD_NAME` and `VITE_CLOUDINARY_UPLOAD_PRESET` are set, client uploads to Cloudinary.
+- If `VITE_DRIVE_UPLOAD_ENDPOINT` is set, client uses external endpoint upload mode.
+- If neither Cloudinary nor endpoint is configured, client uses Firebase Storage upload mode.
 
 ### Security warning
 
