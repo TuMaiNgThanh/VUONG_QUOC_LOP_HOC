@@ -1,0 +1,105 @@
+﻿<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Classroom Kingdom - Trình phát bài học</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#6467f2" },
+            fontFamily: { display: ["Inter", "sans-serif"] }
+          }
+        }
+      };
+    </script>
+    <link rel="stylesheet" href="./lesson-player.css" />
+  </head>
+  <body class="bg-slate-100 font-display text-slate-900 min-h-screen">
+    <header class="sticky top-0 z-50 flex items-center justify-between border-b border-slate-200 bg-white/90 backdrop-blur-md px-6 py-3">
+      <div class="flex items-center gap-4">
+        <a href="../student-library/student-library.html" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100 text-sm font-medium">
+          <span class="material-symbols-outlined text-lg">arrow_back</span>
+          Về thư viện
+        </a>
+      </div>
+      <button id="logoutBtn" class="px-4 py-2 rounded-lg bg-slate-900 text-white text-sm font-semibold">Đăng xuất</button>
+    </header>
+
+    <main class="max-w-7xl mx-auto w-full p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6">
+      <section class="space-y-5">
+        <nav class="flex items-center gap-2 text-sm text-slate-500">
+          <a class="hover:text-primary" href="#">Khóa học Phép thuật</a>
+          <span class="material-symbols-outlined text-xs">chevron_right</span>
+          <span id="lessonMeta">Đang tải...</span>
+        </nav>
+
+        <article class="bg-white border border-slate-200 rounded-xl p-5">
+          <h1 id="lessonTitle" class="text-3xl font-black tracking-tight mb-2">Đang tải bài giảng...</h1>
+          <p class="text-slate-500 text-sm">Học theo nhịp độ của bạn và trao đổi ngay tại khung chat bên phải.</p>
+        </article>
+
+        <section class="relative aspect-video bg-slate-900 rounded-xl overflow-hidden shadow-2xl">
+          <div id="videoWrap" class="h-full w-full"></div>
+        </section>
+
+        <section class="bg-white border border-slate-200 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex gap-2">
+            <button class="px-4 py-2 rounded-lg bg-slate-100 text-sm font-semibold">Bài trước</button>
+            <button class="px-4 py-2 rounded-lg bg-slate-100 text-sm font-semibold">Bài sau</button>
+          </div>
+          <label class="text-sm font-medium flex items-center gap-2"><input type="checkbox" class="rounded" /> Đánh dấu hoàn thành</label>
+        </section>
+
+        <section class="bg-white border border-slate-200 rounded-xl p-5">
+          <a id="docLink" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 text-primary font-bold text-sm mb-4 hidden">
+            <span class="material-symbols-outlined text-sm">description</span>
+            Tài liệu học tập
+          </a>
+          <div id="resourceLinks" class="flex flex-wrap gap-2 mb-4"></div>
+          <p class="text-slate-600">Sử dụng thảo luận để hỏi đáp trong quá trình học và luyện tập.</p>
+        </section>
+      </section>
+
+      <aside class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm flex flex-col min-h-[580px]">
+        <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+          <h2 class="font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary">chat</span> Thảo luận sôi nổi</h2>
+          <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-green-100 text-green-700">Online</span>
+        </div>
+
+        <div id="commentsList" class="flex-1 p-4 overflow-y-auto space-y-3"></div>
+
+        <form id="commentForm" class="p-4 border-t border-slate-200 space-y-2">
+          <div class="comment-toolbar" role="toolbar" aria-label="Định dạng bình luận">
+            <button type="button" class="comment-toolbar-btn" data-comment-cmd="bold" title="In đậm"><strong>B</strong></button>
+            <button type="button" class="comment-toolbar-btn" data-comment-cmd="italic" title="In nghiêng"><em>I</em></button>
+            <button type="button" class="comment-toolbar-btn" data-comment-cmd="underline" title="Gạch dưới"><u>U</u></button>
+            <select id="commentFontSize" class="comment-size" title="Cỡ chữ">
+              <option value="3">Cỡ chữ</option>
+              <option value="2">Nhỏ</option>
+              <option value="3">Vừa</option>
+              <option value="4">Lớn</option>
+              <option value="5">Rất lớn</option>
+            </select>
+          </div>
+          <div class="comment-form-row">
+            <div id="commentInput" class="comment-editor" contenteditable="true" data-placeholder="Gửi bình luận..."></div>
+            <button type="submit" class="px-3 rounded-xl bg-primary text-white font-bold">Gửi</button>
+          </div>
+        </form>
+      </aside>
+    </main>
+
+    <footer class="py-6 text-center text-xs text-slate-400 border-t border-slate-200 bg-white">
+      2024 Classroom Kingdom. Chúc bạn một ngày học tập đầy phép thuật.
+    </footer>
+
+    <script type="module" src="./lesson-player.js"></script>
+  </body>
+</html>
