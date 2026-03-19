@@ -1,0 +1,17 @@
+{
+  "name": "drive-upload-service",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "firebase-admin": "^13.5.0",
+    "googleapis": "^142.0.0",
+    "multer": "^1.4.5-lts.1"
+  }
+}

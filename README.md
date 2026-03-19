@@ -142,6 +142,35 @@ Option B - Any external upload API (Cloud Run / Apps Script / server):
 - Set `VITE_DRIVE_UPLOAD_ENDPOINT` to your upload API URL.
 - The client uploads to that URL with Firebase ID token in `Authorization` header.
 
+#### Option B quickstart (Cloud Run in this repo)
+
+This repo includes a ready service at `external/drive-upload-service`.
+
+1. Re-authenticate gcloud (if needed):
+
+```bash
+gcloud auth login
+```
+
+2. Deploy Cloud Run endpoint with one script:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/deploy-drive-upload-cloudrun.ps1
+```
+
+3. Copy output endpoint and set in `.env`:
+
+```bash
+VITE_DRIVE_UPLOAD_ENDPOINT=https://<cloud-run-url>/upload
+```
+
+4. Rebuild and deploy hosting:
+
+```bash
+npm run build
+firebase deploy --only hosting --project <firebase-project-id>
+```
+
 ### 3. Install functions dependencies (Option A only)
 
 ```bash
