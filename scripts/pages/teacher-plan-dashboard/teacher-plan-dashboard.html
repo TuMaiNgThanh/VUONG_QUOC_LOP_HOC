@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Plan Dashboard - Classroom Kingdom</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#6467f2" },
+            fontFamily: { display: ["Inter", "sans-serif"] }
+          }
+        }
+      };
+    </script>
+    <link rel="stylesheet" href="./teacher-plan-dashboard.css" />
+  </head>
+  <body class="bg-slate-100 font-display text-slate-900 min-h-screen">
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-primary/10 px-4 md:px-8 py-3">
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="size-9 bg-primary rounded-lg text-white flex items-center justify-center">
+            <span class="material-symbols-outlined">inventory_2</span>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold tracking-tight">Teacher Plan Dashboard</h1>
+            <p class="text-xs text-slate-500">Không gian xem giáo án như thư viện học sinh</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="backTeacherBtn" class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-sm font-semibold">Về quản trị</button>
+          <button id="goProfileBtn" class="px-3 py-2 rounded-lg bg-primary/10 text-primary text-sm font-semibold">Hồ sơ</button>
+          <button id="logoutBtn" class="px-3 py-2 rounded-lg bg-slate-900 text-white text-sm font-semibold">Đăng xuất</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto w-full p-4 md:p-8 grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-8">
+      <section class="space-y-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-3">
+          <div>
+            <h2 class="text-3xl font-black tracking-tight">Kho giáo án của bạn</h2>
+            <p id="summaryText" class="text-slate-500 text-sm">Đang tải dữ liệu giáo án...</p>
+          </div>
+          <div class="flex gap-2">
+            <input id="searchInput" class="w-64 rounded-xl border-slate-200 bg-white" placeholder="Tìm theo tiêu đề/mục tiêu..." />
+            <button id="clearSearchBtn" class="px-4 py-2 rounded-xl border border-slate-200 bg-white text-sm font-semibold">Xóa lọc</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <article class="bg-white border border-slate-200 rounded-xl p-4">
+            <p class="text-xs font-bold uppercase text-slate-400">Tổng giáo án</p>
+            <p id="metricTotal" class="text-2xl font-black mt-1">0</p>
+          </article>
+          <article class="bg-white border border-slate-200 rounded-xl p-4">
+            <p class="text-xs font-bold uppercase text-slate-400">Có YouTube</p>
+            <p id="metricYoutube" class="text-2xl font-black mt-1">0</p>
+          </article>
+          <article class="bg-white border border-slate-200 rounded-xl p-4">
+            <p class="text-xs font-bold uppercase text-slate-400">Có PPT</p>
+            <p id="metricPpt" class="text-2xl font-black mt-1">0</p>
+          </article>
+          <article class="bg-white border border-slate-200 rounded-xl p-4">
+            <p class="text-xs font-bold uppercase text-slate-400">Có PDF</p>
+            <p id="metricPdf" class="text-2xl font-black mt-1">0</p>
+          </article>
+        </div>
+
+        <p id="resultInfo" class="text-sm text-slate-500"></p>
+        <section id="plansGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></section>
+      </section>
+
+      <aside class="space-y-4">
+        <div class="detail-box p-5">
+          <p class="text-sm font-bold text-primary mb-2">Xem chi tiết giáo án</p>
+          <p class="text-xs text-slate-500 mb-4">Chọn một giáo án để xem nội dung như trải nghiệm duyệt thư viện.</p>
+
+          <div class="space-y-4">
+            <div>
+              <p class="detail-label mb-1">Tiêu đề</p>
+              <p id="detailTitle" class="detail-value">Chưa chọn giáo án.</p>
+            </div>
+
+            <div>
+              <p class="detail-label mb-1">Mục tiêu buổi dạy</p>
+              <p id="detailObjective" class="detail-value">-</p>
+            </div>
+
+            <div>
+              <p class="detail-label mb-1">Khung tiến trình</p>
+              <p id="detailOutline" class="detail-value">-</p>
+            </div>
+
+            <div>
+              <p class="detail-label mb-1">Ghi chú nội bộ</p>
+              <p id="detailNotes" class="detail-value">-</p>
+            </div>
+
+            <div>
+              <p class="detail-label mb-2">Tài nguyên đi kèm</p>
+              <div id="detailResources" class="flex flex-wrap gap-2"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-primary/10 border border-primary/20 rounded-xl p-4">
+          <p class="text-sm font-semibold text-primary mb-1">Bảo mật giáo án</p>
+          <p class="text-xs text-primary/80">Trang này chỉ teacher/admin truy cập được. Student không đọc được dữ liệu lessonPlans.</p>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="mt-auto py-8 border-t border-primary/5 text-center text-xs text-slate-400">
+      2026 Classroom Kingdom - Teacher Plan Dashboard
+    </footer>
+
+    <script type="module" src="./teacher-plan-dashboard.js"></script>
+  </body>
+</html>

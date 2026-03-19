@@ -1,0 +1,66 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function currentUserRole() {
+      return firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function canManageLessonAssets() {
+      return isSignedIn() && (currentUserRole() == "teacher" || currentUserRole() == "admin");
+    }
+
+    match /lesson-ppt/{userId}/{allPaths=**} {
+      allow read: if isSignedIn();
+      allow write: if canManageLessonAssets();
+    }
+
+    match /lesson-pdf/{userId}/{allPaths=**} {
+      allow read: if isSignedIn();
+      allow write: if canManageLessonAssets();
+    }
+
+    match /plan-ppt/{userId}/{allPaths=**} {
+      allow read: if isSignedIn();
+      allow write: if canManageLessonAssets();
+    }
+
+    match /plan-pdf/{userId}/{allPaths=**} {
+      allow read: if isSignedIn();
+      allow write: if canManageLessonAssets();
+    }
+
+    match /reference-pdf/{userId}/{allPaths=**} {
+      allow read: if isSignedIn();
+      allow write: if canManageLessonAssets();
+    }
+
+    match /reference-cover/{userId}/{allPaths=**} {
+      allow read: if isSignedIn();
+      allow write: if canManageLessonAssets();
+    }
+
+    match /exercise-ppt/{userId}/{allPaths=**} {
+      allow read: if isSignedIn();
+      allow write: if canManageLessonAssets();
+    }
+
+    match /exercise-pdf/{userId}/{allPaths=**} {
+      allow read: if isSignedIn();
+      allow write: if canManageLessonAssets();
+    }
+
+    match /exercise-docs/{userId}/{allPaths=**} {
+      allow read: if isSignedIn();
+      allow write: if canManageLessonAssets();
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,66 @@
+# CLASSROOM KINGDOM - Product Requirements Document
+
+## 1. Project Overview
+"CLASSROOM KINGDOM" is a magical-themed modern EdTech platform designed to bridge the gap between teachers and students through a responsive web application. The platform uses a "Kingdom" metaphor to make learning engaging while maintaining a professional and clean functional interface.
+
+## 2. Core User Flows
+1.  **Visitor/Landing:** Views the "Team Showcase" (Bảng Vàng Danh Vọng) to see the creators/teachers.
+2.  **Authentication:** Logs in via Google (Login Screen). System detects role (Teacher vs. Student).
+3.  **Teacher Flow:** Accesses the "Phòng Điều Hành" (Dashboard) to upload lesson links (YouTube/Drive) and manage existing content.
+4.  **Student Flow:** Enters the "Thư Viện Tri Thức" (Library) to search and filter lessons.
+5.  **Learning Flow:** Opens a "Khán Phòng Ánh Sáng" (Lesson Player) to watch videos and participate in real-time discussion.
+
+## 3. Design System Specifications
+
+### Color Palette (Kingdom Theme)
+- **Primary:** #6366F1 (Indigo - Royal Purple) - Main brand color, primary buttons.
+- **Secondary:** #F59E0B (Amber - Golden Crown) - Accents, highlights, "Post" buttons.
+- **Success:** #10B981 (Emerald - Magic) - Success states, active indicators.
+- **Background:** #F8FAFC (Light Slate) - App background.
+- **Card/Surface:** #FFFFFF (Parchment) - Content containers.
+- **Text:** #1E293B (Dark Ink) - Primary typography.
+
+### Typography (Inter Family)
+- **Heading:** Inter Bold (24-48px)
+- **Body:** Inter Regular (14-16px)
+- **Labels:** Inter Medium (12px)
+
+### Layout & Spacing
+- **Grid:** 4px base grid system.
+- **Mobile:** 375px width, 1-column grids.
+- **Desktop:** 1440px width, multi-column layouts (3-col library, split-view player).
+
+## 4. Screen Requirements
+
+### 1. Login Screen (The Portal)
+- **Logo:** Royal Crest "CLASSROOM KINGDOM"
+- **Copy:** "Welcome to the Kingdom of Learning"
+- **Action:** Google Sign-in (Indigo).
+- **Animation:** Role detection triggers a "Secret Door" or "Portal" transition.
+
+### 2. Teacher Dashboard (Phòng Điều Hành)
+- **Layout:** White card for upload form.
+- **Fields:** Title, YouTube URL, Google Drive URL, "Hide from Students" toggle.
+- **Action:** [Golden Button] POST LESSON.
+- **List:** "My Lessons" table showing status and management options.
+
+### 3. Student Library (Thư Viện Tri Thức)
+- **Components:** Search bar with filter icon.
+- **Grid:** Responsive lesson cards.
+- **Card Content:** Play icon, Title, Teacher name, Date, Preview text, View button.
+
+### 4. Lesson Player (Khán Phòng Ánh Sáng)
+- **Video:** 16:9 YouTube iframe.
+- **Social:** Real-time discussion/chat panel.
+- **Layout:** Desktop: 60% Video / 40% Chat. Mobile: Stacked.
+
+### 5. Team Showcase (Bảng Vàng Danh Vọng)
+- **Role:** Landing/About page.
+- **Grid:** 5 Hero Cards featuring the team.
+- **Style:** Shimmer glow effects for top contributors.
+
+## 5. Micro-interactions
+- Crown glow on login.
+- Golden confetti on successful upload.
+- Slide-in animations for new comments.
+- Sequential fade-in for library cards.

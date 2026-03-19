@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Thư viện Phép thuật - Classroom Kingdom</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#6467f2",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101122",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .skeleton {
+            background: linear-gradient(90deg, transparent 25%, rgba(100, 103, 242, 0.1) 50%, transparent 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex flex-col min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10 px-4 md:px-10 py-3 flex items-center justify-between">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">auto_stories</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Classroom Kingdom</h2>
+</div>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="#">Thư viện</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="#">Khóa học</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="#">Thử thách</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="#">Xếp hạng</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-primary/5 dark:bg-primary/10 rounded-lg px-3 py-1.5 border border-primary/10">
+<span class="material-symbols-outlined text-primary text-xl">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm placeholder:text-slate-400 w-48" placeholder="Tìm phép thuật..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-lg hover:bg-primary/10 text-slate-600 dark:text-slate-400 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-primary/10 text-slate-600 dark:text-slate-400 transition-colors">
+<span class="material-symbols-outlined">workspace_premium</span>
+</button>
+<div class="size-10 rounded-full bg-primary/20 border-2 border-primary/30 overflow-hidden" data-alt="User profile avatar">
+<img alt="Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFlPAGlwFBsCfP4k4LnFCa9gLIn3YBNNb2dSRJ3UNhM0uYFCyEGgOuIfFdEpRt6ZpPAd8ZwqiJX4sTCssmcs0nL4ICtHXOyEYZW8_9uLtMQ_3AIN3mY28ASagylZHUdQKWbC91ZIx7qb5OUSnS4vB4AkBjfYHW7fy3-illIw6eIGtvfeCQkKiddsSd54lFy_g4vjs_FVoyqznXbw3ZGqt5z5y74-d1aqgLnB8ltLmqMTJ_1U5oc65DcbUeL-C0Zxl54sGUQsqovdi2"/>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow flex flex-col md:flex-row max-w-7xl mx-auto w-full p-4 md:p-8 gap-8">
+<!-- Left Sidebar Filters -->
+<aside class="w-full md:w-64 flex-shrink-0 space-y-8">
+<div class="space-y-4">
+<h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Lọc Bài Giảng</h3>
+<div class="space-y-6">
+<!-- Subject Filter -->
+<div>
+<label class="block text-sm font-semibold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">menu_book</span>
+                            Môn học
+                        </label>
+<div class="space-y-2">
+<label class="flex items-center gap-3 p-2 rounded-lg hover:bg-primary/5 cursor-pointer">
+<input checked="" class="rounded border-primary/30 text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="text-sm">Độc dược học</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded-lg hover:bg-primary/5 cursor-pointer">
+<input class="rounded border-primary/30 text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="text-sm">Lịch sử phép thuật</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded-lg hover:bg-primary/5 cursor-pointer">
+<input class="rounded border-primary/30 text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="text-sm">Phòng chống nghệ thuật hắc ám</span>
+</label>
+</div>
+</div>
+<!-- Difficulty Filter -->
+<div>
+<label class="block text-sm font-semibold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">reorder</span>
+                            Độ khó
+                        </label>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1.5 rounded-full bg-primary text-white text-xs font-medium">Tất cả</button>
+<button class="px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors">Dễ</button>
+<button class="px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors">Trung bình</button>
+<button class="px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors">Khó</button>
+</div>
+</div>
+<!-- Progress Filter -->
+<div>
+<label class="block text-sm font-semibold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">trending_up</span>
+                            Tiến độ
+                        </label>
+<select class="w-full bg-primary/5 border-primary/10 rounded-lg text-sm focus:border-primary focus:ring-primary">
+<option>Tất cả trạng thái</option>
+<option>Chưa học</option>
+<option>Đang học</option>
+<option>Hoàn thành</option>
+</select>
+</div>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-gradient-to-br from-primary to-indigo-600 text-white space-y-3">
+<span class="material-symbols-outlined text-3xl">auto_awesome</span>
+<p class="text-sm font-medium leading-relaxed">Nâng cấp để mở khóa 150+ bài giảng cao cấp từ các Đại phù thủy!</p>
+<button class="w-full py-2 bg-white text-primary rounded-lg text-xs font-bold hover:bg-slate-100 transition-colors">NÂNG CẤP NGAY</button>
+</div>
+</aside>
+<!-- Main Content -->
+<div class="flex-grow space-y-6">
+<div class="flex items-center justify-between">
+<div>
+<h1 class="text-2xl font-bold">Thư viện Phép thuật</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Khám phá tri thức kỳ diệu dành cho mọi học sinh</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 border border-primary/20 rounded-lg text-primary hover:bg-primary/10">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+<button class="p-2 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900">
+<span class="material-symbols-outlined">view_list</span>
+</button>
+</div>
+</div>
+<!-- Tabs Section -->
+<div class="border-b border-primary/10 flex gap-8">
+<button class="pb-3 border-b-2 border-primary text-primary text-sm font-bold">Tất cả bài giảng</button>
+<button class="pb-3 border-b-2 border-transparent text-slate-500 text-sm font-medium hover:text-slate-700">Gần đây</button>
+<button class="pb-3 border-b-2 border-transparent text-slate-500 text-sm font-medium hover:text-slate-700">Yêu thích</button>
+<button class="pb-3 border-b-2 border-transparent text-slate-500 text-sm font-medium hover:text-slate-700">Khuyên dùng</button>
+</div>
+<!-- Skeleton Loading State (Hidden by default or shown on initial load) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 opacity-60">
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-primary/5">
+<div class="h-40 skeleton"></div>
+<div class="p-4 space-y-3">
+<div class="h-4 w-3/4 rounded skeleton"></div>
+<div class="h-3 w-1/2 rounded skeleton"></div>
+<div class="flex justify-between pt-4">
+<div class="h-3 w-16 rounded skeleton"></div>
+<div class="h-3 w-16 rounded skeleton"></div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-primary/5">
+<div class="h-40 skeleton"></div>
+<div class="p-4 space-y-3">
+<div class="h-4 w-3/4 rounded skeleton"></div>
+<div class="h-3 w-1/2 rounded skeleton"></div>
+<div class="flex justify-between pt-4">
+<div class="h-3 w-16 rounded skeleton"></div>
+<div class="h-3 w-16 rounded skeleton"></div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-primary/5">
+<div class="h-40 skeleton"></div>
+<div class="p-4 space-y-3">
+<div class="h-4 w-3/4 rounded skeleton"></div>
+<div class="h-3 w-1/2 rounded skeleton"></div>
+<div class="flex justify-between pt-4">
+<div class="h-3 w-16 rounded skeleton"></div>
+<div class="h-3 w-16 rounded skeleton"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Actual Content Area -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Lesson Card 1: Completed -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-primary/10 shadow-sm group hover:shadow-md hover:border-primary/30 transition-all">
+<div class="h-40 relative bg-primary/20" data-alt="Illustration of potion brewing class">
+<img alt="Potion" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAYENz6qpQCrAmhYcreZyd2_1KGAEdtrLqvpEeJ8s95mip49eAyFHtH6YlE4iV2w3fYjZpsWrAmrVm-2GuWICT1yW7A2DqP2CCtXN_uCYhXYlB7ESGSqRb5wRDK6U1UvS3ndG1cU2ifRdLgDjkEErXtBs0wQxtdBdDBsVdYSZoBEnFU1u-f3r95rluSa1TqvpOYdldOdHktVXQx_aH_c6h49WZKfh68TRaC8CLk_scRfya1D3XFJLK5jafevHLKxDz9IBMsXpl7Ckh"/>
+<div class="absolute top-2 right-2 px-2 py-1 bg-green-500 text-white text-[10px] font-bold rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">check_circle</span>
+                            HOÀN THÀNH
+                        </div>
+</div>
+<div class="p-4 space-y-3">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest">ĐỘC DƯỢC HỌC</span>
+<span class="text-xs text-slate-400">Dễ</span>
+</div>
+<h4 class="font-bold text-base leading-snug group-hover:text-primary transition-colors">Pha chế dịch may mắn Felix Felicis cơ bản</h4>
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-slate-200" data-alt="Professor Severus Snape avatar">
+<img class="w-full h-full rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNdyhwXgNWKc-TyFCSxqRDVgmMM2FSFigNbjEbHdZcnfJGTbz6lWlZObxjgLSO6jRn3nyHuezwmOMcVnuJ07t7jNGNMW2b0ppewZsYrWtx2GV0-RSccMg4TJ2MUdjk2EgIfIYCP1b2dh3ZrOuRoBPLBGgX0vxYkOP9opE3IejduvyjN95zwI73Jxj3mHx86uxalKquiYnfFVDtiPxrqK4yZlhmYxlAgwslN0xiMs-E8B6YuOIbdcKgpsacuMrkYpmXKZHgwVGeOMV1"/>
+</div>
+<span class="text-xs text-slate-500">Giáo sư Snape</span>
+</div>
+<div class="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-[11px]">45 phút</span>
+</div>
+<button class="text-xs font-bold text-primary flex items-center gap-1">
+                                XEM LẠI <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Lesson Card 2: In Progress -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-primary/10 shadow-sm group hover:shadow-md hover:border-primary/30 transition-all">
+<div class="h-40 relative bg-primary/20" data-alt="Dark arts defense classroom">
+<img alt="Dark Arts" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI64cOxvi1lCD69NNkZkm0d9uQD02FpRGSr7W35Cx2Vwb1pGx9OKCIjAmfWLaCzfpcoyDBQycWyWm85XzIqHFAIv2v0cD0Wuy-AbBDNy5QGFZSxtCkoIB7JRZXJv5XMD-he0uK77Mq9OcgbohtO10HROZ3bNhP-72Pq-YYjOar5C0_GbA9cH8_2DsaOgv7lyQo_yjIDnmWyZEoX7n-G9p4r9XnUxbkdANcYoAfHvXqBFwXNPTeCYyQfUByZ3tfsCB0VOGcO0M6vri1"/>
+<div class="absolute top-2 right-2 px-2 py-1 bg-amber-500 text-white text-[10px] font-bold rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">pending</span>
+                            ĐANG HỌC
+                        </div>
+</div>
+<div class="p-4 space-y-3">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest">PHÒNG CHỐNG HẮC ÁM</span>
+<span class="text-xs text-slate-400">Khó</span>
+</div>
+<h4 class="font-bold text-base leading-snug group-hover:text-primary transition-colors">Triệu hồi thần hộ mệnh: Patronus Charm</h4>
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-slate-200" data-alt="Professor Lupin avatar">
+<img class="w-full h-full rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIGawTrvvb8f6yFIhBR-IUXKguUYAJMb2QDwynD9xpyqaf_BD1fy6hXvQyp0n4iWGnRS-cbAtf3BUIUj6IMqp6d7vYe0G1SfESo0vnHxERt17GvSs-fglY87pXY7MRM5k2J-UdUPDcpY1e9f758rSw2KR_SZWt2LABn32eWwpL8CJCLX6mURG8JB48aaHgwCCSvGLS7VZRwUNyiXFZJotnHUhg_reX4CLaKxH2lbpBnBDMz6OJMKHr0C8NPsPFTDPoFLSbd_FdcXYH"/>
+</div>
+<span class="text-xs text-slate-500">Giáo sư Lupin</span>
+</div>
+<div class="pt-2">
+<div class="flex justify-between mb-1">
+<span class="text-[10px] text-slate-400">Tiến độ</span>
+<span class="text-[10px] text-primary font-bold">65%</span>
+</div>
+<div class="w-full h-1.5 bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 65%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Lesson Card 3: Not Started -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-primary/10 shadow-sm group hover:shadow-md hover:border-primary/30 transition-all">
+<div class="h-40 relative bg-primary/20" data-alt="Ancient wizard scrolls and books">
+<img alt="History" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYk9EBQCExl7HsArQR2TXH_CoWxvn-WONy8wQQmrye0SHEBwURrJ7q8_TPwHfGzU2m0RdJBA7Dy_gKvp4_bssEktS66qCnBPg21shKNNDmrrIaSqM9jY-y9lVeP6e-ZvkMbKc7K4nzLuVBbh9Z4tAmQfOpQ6hlCFEJM-2GEN7UVk3KQBysITN1OM1sGJ-mB8BEem6yKJHeOriiTd9H8E_zXOxk_f_ZEbdcCdPrjw6CA4FXkTvFAnq_dS-WaewHVyzt4WV9BCSy8HOu"/>
+<div class="absolute top-2 right-2 px-2 py-1 bg-slate-400 text-white text-[10px] font-bold rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">lock_open</span>
+                            CHƯA HỌC
+                        </div>
+</div>
+<div class="p-4 space-y-3">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest">LỊCH SỬ PHÉP THUẬT</span>
+<span class="text-xs text-slate-400">Trung bình</span>
+</div>
+<h4 class="font-bold text-base leading-snug group-hover:text-primary transition-colors">Sự sụp đổ của các Vương quốc Cổ đại</h4>
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-slate-200" data-alt="Professor Binns avatar">
+<img class="w-full h-full rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp36X4Jk81JBx-mmRtCrrmHEJZjNQnuTk7pTm8R4Bq5gFM-YnxO1rXXW44S1bm03OMT9nBrU6fpWUA1KKM7tmI6EbOTByVLeH9SqXb0reMPvfThKya2RONUmElyWTY5oxVZwA5LpADtPmcbq692GARMBP7gNC2Wl6jD-CuDIA5iiOUvR1BnHTomP0MhcCd14vp7xBNsuw1PCLBru1FpZjWjSWCK49VOIxLPJ4Rk3IUk_zeAUW8E26enUlQfTI2ahYC8X8s5YjsUHhP"/>
+</div>
+<span class="text-xs text-slate-500">Giáo sư Binns</span>
+</div>
+<div class="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-[11px]">30 phút</span>
+</div>
+<button class="bg-primary text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-primary/90 transition-colors">
+                                HỌC NGAY
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State Illustration -->
+<div class="hidden flex flex-col items-center justify-center py-20 px-4 text-center space-y-4">
+<div class="size-48 bg-primary/5 rounded-full flex items-center justify-center relative overflow-hidden">
+<span class="material-symbols-outlined text-8xl text-primary/30">search_off</span>
+<div class="absolute inset-0 bg-gradient-to-t from-background-light dark:from-background-dark to-transparent"></div>
+</div>
+<div>
+<h3 class="text-xl font-bold">Không tìm thấy bài giảng</h3>
+<p class="text-slate-500 max-w-xs mx-auto text-sm mt-1">Phép thuật tìm kiếm của bạn không mang lại kết quả nào. Hãy thử xóa bộ lọc nhé!</p>
+</div>
+<button class="px-6 py-2.5 bg-primary text-white rounded-xl font-bold text-sm shadow-lg shadow-primary/20 hover:scale-105 transition-transform">
+                    XEM TẤT CẢ
+                </button>
+</div>
+<!-- Pagination / Lazy Loading Indicator -->
+<div class="flex flex-col items-center pt-10 pb-20 space-y-4">
+<div class="flex items-center gap-2 text-slate-400">
+<div class="size-1.5 bg-primary rounded-full animate-bounce"></div>
+<div class="size-1.5 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+<div class="size-1.5 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+</div>
+<button class="flex items-center gap-2 px-8 py-3 bg-white dark:bg-slate-900 border border-primary/20 rounded-xl text-primary font-bold text-sm hover:bg-primary hover:text-white transition-all">
+                    TẢI THÊM BÀI GIẢNG
+                    <span class="material-symbols-outlined">expand_more</span>
+</button>
+<p class="text-[11px] text-slate-400 uppercase tracking-widest font-medium">Hiển thị 3 / 128 bài giảng</p>
+</div>
+</div>
+</main>
+<!-- Footer Decoration -->
+<footer class="mt-auto py-10 border-t border-primary/5 text-center">
+<div class="flex justify-center gap-12 mb-6">
+<div class="text-center">
+<p class="text-2xl font-bold text-primary">1.2K</p>
+<p class="text-[10px] text-slate-500 font-bold tracking-widest uppercase">Phép thuật</p>
+</div>
+<div class="text-center">
+<p class="text-2xl font-bold text-primary">850</p>
+<p class="text-[10px] text-slate-500 font-bold tracking-widest uppercase">Thử thách</p>
+</div>
+<div class="text-center">
+<p class="text-2xl font-bold text-primary">45</p>
+<p class="text-[10px] text-slate-500 font-bold tracking-widest uppercase">Đại phù thủy</p>
+</div>
+</div>
+<p class="text-xs text-slate-400">© 2024 Classroom Kingdom - Học viện Phép thuật Kỹ thuật số</p>
+</footer>
+</div>
+</body></html>

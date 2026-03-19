@@ -1,0 +1,184 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isRootAdminEmail() {
+      return isSignedIn() && request.auth.token.email in [
+        "admin@vuongquoc.com"
+      ];
+    }
+
+    function currentUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isAdmin() {
+      return isRootAdminEmail() || (isSignedIn() && currentUserRole() == "admin");
+    }
+
+    // Users collection
+    match /users/{uid} {
+      allow read: if isSignedIn();
+
+      allow create: if isSignedIn() && request.auth.uid == uid && (
+        request.resource.data.role == "student" ||
+        (request.resource.data.role == "admin" && isRootAdminEmail())
+      );
+
+      allow update: if isSignedIn() && (
+        isAdmin() ||
+        (
+          request.auth.uid == uid &&
+          (
+            request.resource.data.role == resource.data.role &&
+            request.resource.data.email == resource.data.email &&
+            request.resource.data.createdAt == resource.data.createdAt
+          )
+        )
+      );
+
+      allow delete: if isAdmin();
+    }
+
+    // Lessons collection
+    match /lessons/{docId} {
+      allow read: if isSignedIn() && (
+        isAdmin() ||
+        currentUserRole() == "teacher" ||
+        (
+          currentUserRole() == "student" &&
+          resource.data.visible == true &&
+          (
+            !("classId" in resource.data) ||
+            exists(/databases/$(database)/documents/enrollments/$(request.auth.uid + "_" + resource.data.classId))
+          )
+        )
+      );
+      allow create: if isSignedIn() && (
+        isAdmin() ||
+        (currentUserRole() == "teacher" && request.resource.data.teacherId == request.auth.uid)
+      );
+      allow update, delete: if isSignedIn() && (
+        isAdmin() ||
+        (currentUserRole() == "teacher" && resource.data.teacherId == request.auth.uid)
+      );
+
+      // Comments subcollection
+      match /comments/{commentId} {
+        allow read: if isSignedIn();
+        allow create: if isSignedIn();
+        allow update, delete: if isAdmin() || (isSignedIn() && request.auth.uid == resource.data.userId);
+      }
+    }
+
+    // Private lesson plans (different from public lessons)
+    match /lessonPlans/{planId} {
+      allow read: if isSignedIn() && (
+        isAdmin() ||
+        (currentUserRole() == "teacher" && resource.data.teacherId == request.auth.uid)
+      );
+
+      allow create: if isSignedIn() && (
+        isAdmin() ||
+        (currentUserRole() == "teacher" && request.resource.data.teacherId == request.auth.uid)
+      );
+
+      allow update, delete: if isSignedIn() && (
+        isAdmin() ||
+        (currentUserRole() == "teacher" && resource.data.teacherId == request.auth.uid)
+      );
+    }
+
+    // References collection (teacher/admin publish for students)
+    match /references/{referenceId} {
+      allow read: if isSignedIn() && (
+        isAdmin() ||
+        currentUserRole() == "teacher" ||
+        (currentUserRole() == "student" && resource.data.visible == true)
+      );
+
+      allow create: if isSignedIn() && (
+        isAdmin() ||
+        (currentUserRole() == "teacher" && request.resource.data.teacherId == request.auth.uid)
+      );
+      allow update, delete: if isSignedIn() && (
+        isAdmin() ||
+        (currentUserRole() == "teacher" && resource.data.teacherId == request.auth.uid)
+      );
+    }
+
+    // Exercises collection (teacher/admin publish for students)
+    match /exercises/{exerciseId} {
+      allow read: if isSignedIn() && (
+        isAdmin() ||
+        currentUserRole() == "teacher" ||
+        (currentUserRole() == "student" && resource.data.visible == true)
+      );
+
+      allow create: if isSignedIn() && (
+        isAdmin() ||
+        (currentUserRole() == "teacher" && request.resource.data.teacherId == request.auth.uid)
+      );
+      allow update, delete: if isSignedIn() && (
+        isAdmin() ||
+        (currentUserRole() == "teacher" && resource.data.teacherId == request.auth.uid)
+      );
+    }
+
+    // Classes collection
+    match /classes/{classId} {
+      allow read: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.teacherId == request.auth.uid ||
+        (
+          currentUserRole() == "student" &&
+          exists(/databases/$(database)/documents/enrollments/$(request.auth.uid + "_" + classId))
+        )
+      );
+
+      allow create: if isSignedIn() && (
+        isAdmin() ||
+        (currentUserRole() == "teacher" && request.resource.data.teacherId == request.auth.uid)
+      );
+
+      allow update, delete: if isSignedIn() && (
+        isAdmin() ||
+        (currentUserRole() == "teacher" && resource.data.teacherId == request.auth.uid)
+      );
+    }
+
+    // Enrollments collection
+    match /enrollments/{enrollmentId} {
+      allow read: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.studentId == request.auth.uid ||
+        (
+          currentUserRole() == "teacher" &&
+          exists(/databases/$(database)/documents/classes/$(resource.data.classId)) &&
+          get(/databases/$(database)/documents/classes/$(resource.data.classId)).data.teacherId == request.auth.uid
+        )
+      );
+
+      allow create: if isSignedIn() && (
+        isAdmin() ||
+        (
+          currentUserRole() == "student" &&
+          request.resource.data.studentId == request.auth.uid &&
+          exists(/databases/$(database)/documents/classes/$(request.resource.data.classId))
+        ) ||
+        (
+          currentUserRole() == "teacher" &&
+          exists(/databases/$(database)/documents/classes/$(request.resource.data.classId)) &&
+          get(/databases/$(database)/documents/classes/$(request.resource.data.classId)).data.teacherId == request.auth.uid
+        )
+      );
+
+      allow update, delete: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#6467f2",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101122",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Classroom Kingdom - Trình Phát Bài Học</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex min-h-screen flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<div class="text-primary">
+<svg class="size-8" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_330)">
+<path clip-rule="evenodd" d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs><clippath id="clip0_6_330"><rect fill="white" height="48" width="48"></rect></clippath></defs>
+</svg>
+</div>
+<h2 class="text-lg font-bold tracking-tight">Classroom Kingdom</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Khóa học</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Thành tích</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Cửa hàng</a>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<div class="h-10 w-10 rounded-full bg-primary/20 border-2 border-primary overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User profile avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxIyV-nu1M6p0tSxvZtbYuWncdH8KofmPipOJZK2BnAkr7x27ZyEBeTqwTa-5nPzZATP7WPJUoneCrNSZJ0S18_pxXLuqOSfuWghgVU7ruEXoDjXqRTZ8cRqIUGpQVcmxIuUD_6582WAmOCD_zbKw1O2T1NwurRG8PRPJ51If6qdLAIldBNaiyfl9kCW9hBvAJVnpqbZvI0aoF0ljjC9ievHkNQCMBxO31ubXk-QZo5qLLdWOJFPUXByjcJAsmwfVcWRwG_xB8NUAO"/>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col lg:flex-row max-w-[1600px] mx-auto w-full p-4 lg:p-6 gap-6">
+<!-- Left Side: Video & Content -->
+<div class="flex-1 flex flex-col gap-6">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<a class="hover:text-primary" href="#">Khóa học Phép thuật</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<a class="hover:text-primary" href="#">Chương I: Căn bản Wand-work</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-100 font-medium">Bài 3: Điều khiển tia sáng ban mai</span>
+</nav>
+<!-- Video Player Area -->
+<div class="relative aspect-video bg-slate-900 rounded-xl overflow-hidden shadow-2xl group">
+<img class="absolute inset-0 w-full h-full object-cover opacity-60" data-alt="Magical classroom background for video player" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbZnOCqo-PxMZGxJXNI0SEvU8RgUiNO8WS_012fDF3twFFjGx5dwJKo5zuooMHNSnGoIrZDkJ2vObSaRJYd-8DNoFzhFq4FMaKe2l4FZrUlU8jdryHVt9J8Q3qh4pxwKGAJSt7HElcsKfNiN5r_zybD6qFLD4cqHWffaphrmldNBNp0OqIqGGP14d6CLWEpfjcYyrg2Qxd_EJBXfyB4zA_XvdQGlLS9vp9TeqV17Y7Z9RIOiRQe5I4KA5IbDjT7-yQKnnc0LPPmKJr"/>
+<!-- Network Warning Overlay (Conditional UI) -->
+<div class="absolute top-4 right-4 z-20">
+<div class="flex items-center gap-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md p-3 rounded-lg border border-yellow-500/50 shadow-lg max-w-xs">
+<span class="material-symbols-outlined text-yellow-500">signal_cellular_nodata</span>
+<div class="flex-1">
+<p class="text-xs font-bold text-slate-900 dark:text-white">Trạng thái mạng yếu</p>
+<p class="text-[10px] text-slate-600 dark:text-slate-300">Video đang tải chậm. Thử giảm chất lượng?</p>
+</div>
+<button class="bg-primary text-white text-[10px] px-2 py-1 rounded font-bold hover:bg-primary/90">GIẢM</button>
+</div>
+</div>
+<!-- Play Button Center -->
+<button class="absolute inset-0 flex items-center justify-center group-hover:scale-110 transition-transform">
+<div class="size-20 bg-primary/90 text-white rounded-full flex items-center justify-center shadow-xl ring-8 ring-primary/20">
+<span class="material-symbols-outlined text-5xl fill-1">play_arrow</span>
+</div>
+</button>
+<!-- Controls Bottom -->
+<div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6 pt-12">
+<div class="flex flex-col gap-3">
+<!-- Progress Bar -->
+<div class="relative h-1.5 w-full bg-white/20 rounded-full cursor-pointer overflow-hidden">
+<div class="absolute top-0 left-0 h-full w-1/3 bg-primary"></div>
+<div class="absolute top-0 left-1/3 size-3 bg-white rounded-full -translate-y-1/4 -translate-x-1/2 shadow-md"></div>
+</div>
+<div class="flex items-center justify-between text-white text-xs font-medium">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">play_arrow</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">skip_next</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">volume_up</span>
+<span>05:12 / 15:00</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">fullscreen</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Navigation Controls -->
+<div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+                            Bài trước
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                            Bài sau
+                            <span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+<div class="flex items-center gap-4">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+<span class="ml-3 text-sm font-medium">Đánh dấu hoàn thành</span>
+</label>
+</div>
+</div>
+<!-- Lesson Info & Progress -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 space-y-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h1 class="text-2xl font-bold mb-1">Bài 3: Điều khiển tia sáng ban mai</h1>
+<p class="text-slate-500 dark:text-slate-400">Giáo sư Merlin • Cấp độ: Nhập môn Phù thủy</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-sm font-bold text-primary mb-1">Tiến độ khóa học: 45%</span>
+<div class="w-48 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[45%]"></div>
+</div>
+</div>
+</div>
+<div class="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
+<p>Trong bài học này, chúng ta sẽ khám phá cách tập trung năng lượng vào đầu đũa phép để tạo ra một luồng sáng tinh khiết. Đây là kỹ năng nền tảng cho mọi pháp sư Kingdom trước khi bắt đầu các phép thuật bậc cao hơn.</p>
+</div>
+</div>
+</div>
+<!-- Right Side: Resources & Chat -->
+<div class="w-full lg:w-[400px] flex flex-col gap-6">
+<!-- Resource Panel -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+<div class="p-4 border-b border-slate-200 dark:border-slate-800 bg-primary/5">
+<h3 class="font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">folder_open</span>
+                            Tài liệu đính kèm
+                        </h3>
+</div>
+<div class="p-2">
+<div class="space-y-1">
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-red-500">picture_as_pdf</span>
+<div>
+<p class="text-sm font-medium">Giao án Phép Thuật.pdf</p>
+<p class="text-[10px] text-slate-400">2.4 MB</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">download</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-blue-500">description</span>
+<div>
+<p class="text-sm font-medium">Bài tập thực hành.docx</p>
+<p class="text-[10px] text-slate-400">1.1 MB</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">download</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-green-500">image</span>
+<div>
+<p class="text-sm font-medium">Sơ đồ Wand-movements.jpg</p>
+<p class="text-[10px] text-slate-400">4.5 MB</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">download</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Chat/Discussion UX -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm flex flex-col flex-1 min-h-[500px]">
+<div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<h3 class="font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">chat</span>
+                            Thảo luận sôi nổi
+                        </h3>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 flex items-center gap-1">
+<span class="size-1.5 bg-green-500 rounded-full"></span> 124 Online
+                        </span>
+</div>
+<!-- Chat Messages Area -->
+<div class="flex-1 p-4 overflow-y-auto space-y-4 max-h-[400px]">
+<!-- Message Received -->
+<div class="flex items-start gap-3">
+<div class="size-8 rounded-full bg-slate-200 overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Student avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmQruqlGhH4NEvCSufSq1DosMnJtU4N5e38x0Qlpeliu0efi8IigeTCvpnnw86t3XEI3Rg5Zb1uSeJjXGsBHsDdPJkGKS7qhyuSTxtxV9V1PTG93iz4GWa1TlPt8_k3yTizZjwz1J-b5a7epe54Xg9sdMSMdiJHTSyObzqeCTTZeb1wa3EmIgczyKSqYc3iv3gzO6p3C1zpeCpfU0hOxgNSSBUY31B2xQo750Dq99IpCNUFrZeASnR5V83nfTbUt66WMm8IUMFr894"/>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs font-bold">Linh Phù Thủy</span>
+<span class="text-[10px] text-slate-400">10:45</span>
+</div>
+<div class="bg-slate-100 dark:bg-slate-800 p-3 rounded-tr-xl rounded-br-xl rounded-bl-xl text-sm">
+                                    Mọi người ơi, đoạn 05:12 em làm theo mà tia sáng cứ bị đỏ là sao nhỉ? 🧙‍♀️
+                                </div>
+</div>
+</div>
+<!-- Message Sent (Success) -->
+<div class="flex items-start gap-3 flex-row-reverse">
+<div class="size-8 rounded-full bg-primary/20 overflow-hidden shrink-0 border-2 border-primary">
+<img class="w-full h-full object-cover" data-alt="User avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsyiRXqa68YeREWE_xpGaMWRoQcuLRI06m2rRzN9RN-mvW3V29Iy1kKK7ytyV3KMUmjy76rm8vgnX1VPw-AOyEKmcN_yW1U_FIMWp4c-U60-v4QhpIVpUhheZjEZYix_I158106u5eBcj5gEiVFyK6FryYbMwtngl--et28ou-hcQYuvgW_HcB3ATtCEHgKoTvO1bZbwElsVCgePMhrcHOaCtfFiUiWZ0mNThUNgKGvASytYIHW-ZSnUhYg-ki3pyEKi7c-Rd3F-On"/>
+</div>
+<div class="flex flex-col items-end">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] text-slate-400">10:47</span>
+<span class="text-xs font-bold">Bạn (Thành viên)</span>
+</div>
+<div class="bg-primary text-white p-3 rounded-tl-xl rounded-bl-xl rounded-br-xl text-sm shadow-md">
+                                    Chắc do cổ tay bạn xoay chưa đủ vòng ấy, thử lại xem!
+                                </div>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[10px] text-green-500">check_circle</span>
+<span class="text-[10px] text-green-500 font-medium">Đã gửi thành công</span>
+</div>
+</div>
+</div>
+<!-- Message Sent (Error) -->
+<div class="flex items-start gap-3 flex-row-reverse opacity-70">
+<div class="size-8 rounded-full bg-primary/20 overflow-hidden shrink-0 border-2 border-primary">
+<img class="w-full h-full object-cover" data-alt="User avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2B57P1QRzq_8bgvLgUuGjTQAeQ3aqlbMsxa8C2ywCXJ8AHdzq_Oe-T9S4fxsf81rkXxTVfEDQeQ31ZvpZNcTKr_raJmbeDSP5KLWbjlpPsCpOIzuU2tVkiMlLQ1b7jsd7CFVPdSFYyvQL87GVZYrC2PSQgw8ET3hbD30uDA_W47c1LOSQUn1jqjdJFWffrRScqUOPYr84lH3aL5I1KGcz01O674aoEfQYEEFTcVgblxOpG1_zxJMR5p28tbBsoYgvvVh7n82vaNnn"/>
+</div>
+<div class="flex flex-col items-end">
+<div class="bg-slate-100 dark:bg-slate-800 p-3 rounded-tl-xl rounded-bl-xl rounded-br-xl text-sm italic">
+                                    Mình cũng bị giống Linh nè...
+                                </div>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[10px] text-red-500">error</span>
+<span class="text-[10px] text-red-500 font-medium">Gửi lỗi - Thử lại</span>
+</div>
+</div>
+</div>
+<!-- System Placeholder / Anti-spam -->
+<div class="text-center py-2">
+<span class="text-[10px] text-slate-400 bg-slate-50 dark:bg-slate-800/50 px-3 py-1 rounded-full border border-slate-100 dark:border-slate-700">Vui lòng chờ 3s trước khi gửi tin nhắn tiếp theo</span>
+</div>
+</div>
+<!-- Chat Input -->
+<div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/20">
+<div class="relative">
+<input class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl py-3 pl-4 pr-12 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Đặt câu hỏi cho giáo sư hoặc bạn học..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 size-8 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">send</span>
+</button>
+</div>
+<div class="flex items-center gap-4 mt-3">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">mood</span>
+</button>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">attach_file</span>
+</button>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">mic</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer / Mobile Nav Suggestion -->
+<footer class="p-6 text-center text-slate-400 text-xs border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 mt-auto">
+<p>© 2024 Classroom Kingdom. Chúc bạn một ngày học tập đầy phép thuật!</p>
+</footer>
+</div>
+</body></html>

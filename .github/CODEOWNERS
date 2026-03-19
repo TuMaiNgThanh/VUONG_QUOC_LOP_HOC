@@ -1,0 +1,8 @@
+# Default owners for all files
+* @your-github-username
+
+# Firebase and security critical files
+/firebase.json @your-github-username
+/firestore.rules @your-github-username
+/storage.rules @your-github-username
+/scripts/services/firebase/ @your-github-username

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#6467f2",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101122",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-6 md:px-20 py-4 bg-white dark:bg-slate-900/50 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_330)">
+<path clip-rule="evenodd" d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs><clippath id="clip0_6_330"><rect fill="white" height="48" width="48"></rect></clippath></defs>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">Classroom Kingdom</h2>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-500">help_outline</span>
+</div>
+</header>
+<main class="flex-1 flex items-center justify-center p-4 md:p-8">
+<div class="w-full max-w-[480px] flex flex-col gap-6">
+<div class="relative group overflow-hidden rounded-xl shadow-2xl">
+<div class="bg-cover bg-center flex flex-col justify-end min-h-[200px] transition-transform duration-500 group-hover:scale-105" data-alt="Magical fantasy library background for classroom theme" style='background-image: linear-gradient(0deg, rgba(16, 17, 34, 0.8) 0%, rgba(100, 103, 242, 0.4) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCFCme_aq34n6PnQQa9PDG5fTmoHFNnrlLgAGT7gSkQNQ7kdcBfgs6206BAd8GTvFGEf-fsVSb7bp87CQPe8xr23ZXbPXqZeZ84L_ytPhBtuGuc2nCdyLdXAdlCb1xUH-B7o2tE4eyCg1eNnIWF3wVnGp2sAKs0amIPW4rVGUJxUGZ4sTg_4rNcPWUdfPJYqFCKbaxm4MhVkN8faBIL0Fi3loN1CzmdZueV-N5a-G7RaWJr39O6hM7Cpb-4uLVfJRQuTxbWHPFicUB6");'>
+<div class="p-8 relative z-10">
+<h1 class="text-white text-3xl font-bold leading-tight mb-2">Chào mừng Hiệp sĩ!</h1>
+<p class="text-white/80 text-sm">Bắt đầu hành trình chinh phục tri thức tại vương quốc của chúng ta.</p>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+<div class="flex border-b border-slate-200 dark:border-slate-800">
+<button class="flex-1 py-4 text-sm font-bold border-b-2 border-primary text-primary bg-primary/5">
+                            Đăng nhập
+                        </button>
+<button class="flex-1 py-4 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            Tạo tài khoản
+                        </button>
+</div>
+<form class="p-8 flex flex-col gap-5">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Email Phù Phép</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">mail</span>
+<input class="w-full pl-11 pr-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="vi-du@vuongquoc.com" type="email"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Mật mã Bí mật</label>
+<a class="text-xs font-medium text-primary hover:underline" href="#">Quên mật khẩu?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">lock</span>
+<input class="w-full pl-11 pr-11 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" type="password" value="••••••••"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary" type="button">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-[10px] uppercase tracking-wider font-bold text-slate-400">Độ mạnh mật mã</span>
+<span class="text-[10px] font-bold text-emerald-500">MẠNH</span>
+</div>
+<div class="flex gap-1 h-1.5">
+<div class="flex-1 bg-emerald-500 rounded-full"></div>
+<div class="flex-1 bg-emerald-500 rounded-full"></div>
+<div class="flex-1 bg-emerald-500 rounded-full"></div>
+<div class="flex-1 bg-emerald-500 rounded-full"></div>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-lg shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 group" type="submit">
+<span>Vào Vương Quốc</span>
+<span class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">swords</span>
+</button>
+<div class="relative flex py-2 items-center">
+<div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+<span class="flex-shrink mx-4 text-slate-400 text-xs font-medium">Hoặc đăng nhập bằng</span>
+<div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<img alt="Google" class="size-5" data-alt="Google logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8z324_Vyvybhp7oFsJ7p6UEal6D5K6U0gVdK9g53gDc-kM_OjYAJ39GIijL9hnGa6o4Q1bSkjCo5cNAgIjidBS1nTiX0qPJ99EeOIuKkwhZ0Yv4buJyia06z9neOLHrKO8wXIV9z0rnXfBXjG6NYRF5K2FCmtRautriBvw3CdvoI5RVYUfrLQa_AXdpLT1H28y1NIsiGSw3WP7WtXR2jmEve2pGH1-r2Pb24xxvy22XRk52o92KYnTd-CVOYSrmTVZq1CIlvL9Lgq"/>
+<span class="text-sm font-medium">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<img alt="Facebook" class="size-5" data-alt="Facebook logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPMr8qpix3Kvv4POjHe7oKHA6cly7ymZcZzFgxkLCH38C1GGqeIs6VChbYUSOvBrVoVEgsdqvAwuuwxXc5Z2iHNErMst8bY0CJfpYlLWJXDFVzqqB_6WRtBqxvXvLjXOALoZcTMdgBBuSSiYFchWMAwYGrG85YsHcp1l5gzh9uMg8h36MGZe6MlRGH2xDJYrgFZF1hxFDhuU2KQtt_mg1bDAknBhRYSqt9nQL1GdUm43JzpKqLOTBppHO7eUnfDmyR3auycCa1xiDA"/>
+<span class="text-sm font-medium">Facebook</span>
+</button>
+</div>
+</form>
+</div>
+<p class="text-center text-slate-500 dark:text-slate-400 text-xs px-8">
+                    Bằng việc tiếp tục, bạn đồng ý với 
+                    <a class="text-primary hover:underline font-semibold" href="#">Điều khoản Dịch vụ</a> 
+                    và 
+                    <a class="text-primary hover:underline font-semibold" href="#">Chính sách Bảo mật</a> 
+                    của Classroom Kingdom.
+                </p>
+</div>
+</main>
+<footer class="py-6 px-4 text-center border-t border-slate-200 dark:border-slate-800">
+<p class="text-slate-400 text-xs font-medium">© 2024 Classroom Kingdom. Chúc bạn có một hành trình học tập kỳ ảo!</p>
+</footer>
+</div>
+</div>
+<div class="fixed bottom-4 right-4 z-[100]">
+<div class="bg-primary/10 border border-primary/20 backdrop-blur-md p-4 rounded-xl shadow-lg flex items-center gap-4 animate-pulse">
+<div class="size-2 bg-emerald-500 rounded-full"></div>
+<p class="text-xs font-semibold text-primary">Máy chủ vương quốc đang hoạt động ổn định</p>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Classroom Kingdom - Trình đọc PDF</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#6467f2" },
+            fontFamily: { display: ["Inter", "sans-serif"] }
+          }
+        }
+      };
+    </script>
+    <link rel="stylesheet" href="./pdf-reader.css" />
+  </head>
+  <body class="bg-slate-100 min-h-screen font-display text-slate-900">
+    <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur-md">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+        <a id="backBtn" href="../student-library/student-library.html" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:text-primary">
+          <span class="material-symbols-outlined text-lg">arrow_back</span>
+          Quay lại bài học
+        </a>
+        <h1 id="pdfTitle" class="text-sm md:text-base font-bold truncate">Tài liệu PDF</h1>
+        <a id="openNewTabBtn" href="#" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-primary text-white text-sm font-bold">
+          <span class="material-symbols-outlined text-lg">open_in_new</span>
+          Mở tab mới
+        </a>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4">
+      <section class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+        <div id="emptyState" class="hidden p-10 text-center text-slate-500">
+          <p class="text-lg font-bold mb-2">Không tìm thấy link PDF</p>
+          <p>Vui lòng quay lại bài học để kiểm tra lại tài liệu.</p>
+        </div>
+        <iframe id="pdfFrame" class="pdf-frame" title="PDF Viewer"></iframe>
+      </section>
+    </main>
+
+    <script type="module" src="./pdf-reader.js"></script>
+  </body>
+</html>

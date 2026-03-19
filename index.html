@@ -1,0 +1,78 @@
+﻿<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vương Quốc Lớp Học - Cổng Phép Thuật</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#6467f2" },
+            fontFamily: { display: ["Inter", "sans-serif"] }
+          }
+        }
+      };
+    </script>
+  </head>
+  <body class="bg-slate-100 font-display text-slate-900 min-h-screen">
+    <header class="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-3 sticky top-0 z-50">
+      <div class="flex items-center gap-3">
+        <div class="size-8 text-primary flex items-center justify-center"><span class="material-symbols-outlined">diamond</span></div>
+        <h1 class="text-2xl font-black tracking-tight">Classroom Kingdom</h1>
+      </div>
+      <p id="userBadge" class="text-sm text-slate-500 font-semibold">Đang kiểm tra phiên...</p>
+    </header>
+
+    <main class="flex-1 relative min-h-[calc(100vh-73px)] bg-cover bg-center bg-no-repeat bg-fixed" style="background-image: url('/assets/images/hero.png');">
+      <!-- Dark Overlay for Text Readability -->
+      <div class="absolute inset-0 bg-black/30"></div>
+      
+      <!-- Hero Content -->
+      <div class="absolute inset-0 flex flex-col items-center justify-center px-6">
+        <!-- Content -->
+        <div class="relative z-10 text-center space-y-6 max-w-2xl">
+          <h2 class="text-6xl md:text-7xl font-black tracking-tight text-white drop-shadow-lg">
+            Chào mừng trở lại!
+          </h2>
+          <p class="text-lg md:text-xl text-white/95 leading-relaxed drop-shadow-md">
+            Cổng phép thuật đã sẵn sàng. Khám phá hành trình học tập kỳ diệu của bạn!
+          </p>
+          
+          <!-- Login Button -->
+          <div class="pt-4">
+            <a href="/scripts/pages/login/login.html" class="inline-flex items-center justify-center gap-3 px-10 py-4 rounded-full bg-white text-primary font-bold text-lg hover:bg-blue-50 transition-all duration-300 hover:shadow-2xl hover:scale-105 transform">
+              <span class="material-symbols-outlined text-2xl">login</span>
+              <span>Đăng nhập / Tạo tài khoản</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module">
+      import { getUserRole, requireAuthenticatedUser } from "./scripts/services/firebase/auth-service.js";
+
+      async function bootstrapAuthBadge() {
+        const badge = document.querySelector("#userBadge");
+        if (!badge) return;
+
+        const user = await requireAuthenticatedUser();
+        if (!user) {
+          badge.textContent = "Khách";
+          return;
+        }
+
+        const role = (await getUserRole(user.uid)) || "student";
+        badge.textContent = `${user.displayName || user.email || "Thành viên"} - ${role}`;
+      }
+
+      bootstrapAuthBadge();
+    </script>
+  </body>
+</html>

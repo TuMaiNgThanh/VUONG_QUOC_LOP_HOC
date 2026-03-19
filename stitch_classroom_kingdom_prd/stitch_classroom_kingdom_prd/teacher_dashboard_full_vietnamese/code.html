@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Classroom Kingdom - Bảng điều khiển Pháp sư</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#6467f2", // Indigo
+                        "accent": "#f59e0b",  // Amber/Gold
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101122",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<!-- Header Component -->
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-1.5 rounded-lg text-white">
+<span class="material-symbols-outlined block">castle</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-primary">Classroom Kingdom</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-semibold text-primary" href="#">Trang chủ</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="#">Bài giảng</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="#">Học sinh</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="#">Báo cáo</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex flex-col items-end">
+<span class="text-sm font-bold text-slate-900 dark:text-white">Đại Pháp Sư Alaric</span>
+<span class="text-xs text-accent font-medium">Cấp độ 99 • Quản trị viên</span>
+</div>
+<div class="h-10 w-10 rounded-full bg-slate-200 border-2 border-primary overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Ảnh đại diện của Đại Pháp Sư Alaric" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjKssjx7oKk77wOHAC6bjX42yOae2WVyOB-eSvAL4kWAf2rHWsmjaFbp3PBvALyme54AwCGDj0NGJG9hImFps3e0x815v6HYa0xX1Wfx1q4L-RL4MY0wQ2gKeMRRhs8Q6_Z8oXAFArP9My2tdKmgfMTWLmgR3gnde1APqdJcboS-3R_XUG3BLO56i32aIiuwvivjTAiqHsOgZ2olXtTCde5zwAqeXqudeGug63F2y1eHkR-BwbarYacZym07GjQqXoeUfaWiT5mb6C"/>
+</div>
+<button class="p-2 text-slate-500 hover:text-red-500 transition-colors" title="Đăng xuất">
+<span class="material-symbols-outlined">logout</span>
+</button>
+</div>
+</div>
+</header>
+<div class="max-w-7xl mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+<!-- Sidebar - Quick Stats -->
+<aside class="w-full lg:w-64 flex flex-col gap-4">
+<div class="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Thống kê vương quốc</p>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-lg">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<div>
+<p class="text-2xl font-bold">128</p>
+<p class="text-xs text-slate-500">Tổng bài giảng</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="p-2 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-lg">
+<span class="material-symbols-outlined">group</span>
+</div>
+<div>
+<p class="text-2xl font-bold">1,452</p>
+<p class="text-xs text-slate-500">Tổng học sinh</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="p-2 bg-accent/20 text-accent rounded-lg">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<div>
+<p class="text-2xl font-bold">25.4k</p>
+<p class="text-xs text-slate-500">XP đã trao</p>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-primary/10 border border-primary/20 rounded-xl">
+<p class="text-sm font-semibold text-primary mb-1 italic">"Tri thức là phép thuật tối thượng."</p>
+<p class="text-xs text-primary/70">- Hội đồng Pháp sư</p>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 space-y-8">
+<!-- Upload Form Section -->
+<section>
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<div>
+<h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-accent">magic_button</span>
+                                Đăng Tải Pháp Thuật Mới
+                            </h2>
+<p class="text-sm text-slate-500">Tạo nội dung bài giảng mới cho cư dân vương quốc</p>
+</div>
+</div>
+<div class="p-6">
+<form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="md:col-span-2">
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Tiêu đề bài giảng</label>
+<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary" placeholder="Ví dụ: Thuật giả kim căn bản cho người mới" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">YouTube URL</label>
+<div class="relative">
+<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary pl-10" placeholder="https://youtube.com/watch?v=..." type="url"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">video_library</span>
+</div>
+<div class="mt-3 aspect-video bg-slate-100 dark:bg-slate-800 rounded-lg flex flex-col items-center justify-center border-2 border-dashed border-slate-300 dark:border-slate-700">
+<span class="material-symbols-outlined text-slate-400 text-3xl mb-2">play_circle</span>
+<p class="text-xs text-slate-500">Xem trước video sẽ hiển thị ở đây</p>
+</div>
+</div>
+<div class="space-y-6">
+<div>
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Google Drive URL (Tài liệu)</label>
+<div class="relative">
+<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary pl-10" placeholder="https://drive.google.com/..." type="url"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">description</span>
+</div>
+</div>
+<div>
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Môn học (Phân loại)</label>
+<select class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary">
+<option>Độc dược học</option>
+<option>Biến hình học</option>
+<option>Phòng chống nghệ thuật hắc ám</option>
+<option>Lịch sử phép thuật</option>
+</select>
+</div>
+<div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+<div>
+<p class="text-sm font-semibold">Trạng thái xuất bản</p>
+<p class="text-xs text-slate-500">Lưu nháp để chỉnh sửa sau</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="md:col-span-2 flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+<button class="px-6 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" type="button">Hủy bỏ</button>
+<button class="px-8 py-2.5 rounded-lg bg-gradient-to-r from-accent to-orange-600 text-white text-sm font-bold shadow-lg shadow-accent/20 hover:scale-[1.02] active:scale-95 transition-all" type="submit">
+                                    Đăng bài giảng
+                                </button>
+</div>
+</form>
+</div>
+</div>
+</section>
+<!-- Lesson Management Table Section -->
+<section class="space-y-4">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<h3 class="text-lg font-bold">Thư viện Pháp thuật</h3>
+<div class="flex flex-wrap items-center gap-2">
+<div class="relative flex-1 min-w-[240px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 rounded-lg text-sm" placeholder="Tìm kiếm bài giảng..." type="text"/>
+</div>
+<select class="py-2 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 rounded-lg text-sm">
+<option>Trạng thái: Tất cả</option>
+<option>Đã xuất bản</option>
+<option>Bản nháp</option>
+</select>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-4 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-between border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-4">
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-xs font-medium text-slate-500">Đã chọn 0 mục</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 rounded transition-all">
+<span class="material-symbols-outlined text-sm">visibility_off</span>
+                                Ẩn bài
+                            </button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-all">
+<span class="material-symbols-outlined text-sm">delete</span>
+                                Xóa bài
+                            </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/30 text-slate-500 uppercase text-[10px] font-bold tracking-widest border-b border-slate-100 dark:border-slate-800">
+<th class="px-4 py-3 w-10"></th>
+<th class="px-6 py-3">Tiêu đề bài giảng</th>
+<th class="px-6 py-3">Ngày tạo</th>
+<th class="px-6 py-3">Trạng thái</th>
+<th class="px-6 py-3 text-right">Thao tác</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-4 py-4"><input class="rounded text-primary focus:ring-primary" type="checkbox"/></td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">auto_fix_high</span>
+</div>
+<div>
+<p class="text-sm font-bold">Lịch sử chiếc đũa phép đầu tiên</p>
+<p class="text-xs text-slate-500 italic">Lịch sử phép thuật</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">12/10/2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                            Đã xuất bản
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-all text-slate-500" title="Chỉnh sửa">
+<span class="material-symbols-outlined text-lg">edit_note</span>
+</button>
+<button class="p-1.5 hover:bg-red-100 dark:hover:bg-red-900/30 rounded transition-all text-red-500" title="Xóa">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-4 py-4"><input class="rounded text-primary focus:ring-primary" type="checkbox"/></td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">science</span>
+</div>
+<div>
+<p class="text-sm font-bold">Pha chế độc dược may mắn Felix Felicis</p>
+<p class="text-xs text-slate-500 italic">Độc dược học</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">10/10/2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 text-[10px] font-bold uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                                            Bản nháp
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-all text-slate-500" title="Chỉnh sửa">
+<span class="material-symbols-outlined text-lg">edit_note</span>
+</button>
+<button class="p-1.5 hover:bg-red-100 dark:hover:bg-red-900/30 rounded transition-all text-red-500" title="Xóa">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Confirm Modal (Hidden by default, shown for visual context) -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 opacity-0 pointer-events-none hover:opacity-100 hover:pointer-events-auto transition-opacity">
+<div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
+<div class="p-6 text-center">
+<div class="w-16 h-16 bg-red-100 dark:bg-red-900/20 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+<span class="material-symbols-outlined text-3xl">warning</span>
+</div>
+<h3 class="text-xl font-bold mb-2">Xóa bài giảng?</h3>
+<p class="text-sm text-slate-500">Hành động này không thể hoàn tác. Bài giảng sẽ bị xóa vĩnh viễn khỏi vương quốc Classroom Kingdom.</p>
+</div>
+<div class="flex border-t border-slate-100 dark:border-slate-800">
+<button class="flex-1 px-4 py-4 text-sm font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 border-r border-slate-100 dark:border-slate-800 transition-colors">Hủy bỏ</button>
+<button class="flex-1 px-4 py-4 text-sm font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors">Xác nhận xóa</button>
+</div>
+</div>
+</div>
+<footer class="mt-12 py-8 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 text-center">
+<p class="text-sm text-slate-400">© 2023 Classroom Kingdom. Hệ thống quản lý giáo dục vương quốc.</p>
+</div>
+</footer>
+</body></html>

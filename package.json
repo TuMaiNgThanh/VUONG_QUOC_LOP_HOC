@@ -1,0 +1,29 @@
+{
+  "name": "vuong-quoc-lop-hoc",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint scripts tests --ext .js",
+    "format": "prettier --write \"**/*.{js,json,md,css,html,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{js,json,md,css,html,yml,yaml}\""
+  },
+  "dependencies": {
+    "firebase": "^11.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.1.0",
+    "globals": "^15.15.0",
+    "jsdom": "^24.1.3",
+    "prettier": "^3.5.3",
+    "vite": "^6.0.0",
+    "vitest": "^2.1.8"
+  }
+}
