@@ -42,6 +42,33 @@ const FONT_SIZE_MAP = {
   7: "32px"
 };
 
+const LESSON_DESCRIPTION_MAX_CHARS = 1200;
+const REFERENCE_CITATION_MAX_CHARS = 600;
+const EXERCISE_DESCRIPTION_MAX_CHARS = 1200;
+
+let adminRolePanelInitialized = false;
+
+const EDITOR_LIMITS = {
+  lesson: {
+    editorSelector: "#lessonDescriptionEditor",
+    counterSelector: "#lessonDescriptionCounter",
+    maxChars: LESSON_DESCRIPTION_MAX_CHARS,
+    label: "Mô tả bài giảng"
+  },
+  reference: {
+    editorSelector: "#referenceCitationEditor",
+    counterSelector: "#referenceCitationCounter",
+    maxChars: REFERENCE_CITATION_MAX_CHARS,
+    label: "Citation"
+  },
+  exercise: {
+    editorSelector: "#exerciseDescriptionEditor",
+    counterSelector: "#exerciseDescriptionCounter",
+    maxChars: EXERCISE_DESCRIPTION_MAX_CHARS,
+    label: "Mô tả bài tập"
+  }
+};
+
 function fmtDate(ts) {
   if (!ts) return "...";
   if (typeof ts?.toDate === "function") return ts.toDate().toLocaleDateString("vi-VN");
@@ -207,17 +234,52 @@ function getEditorPayload(selector) {
   return { html: safeHtml, text: stripHtml(safeHtml) };
 }
 
-function bindRichEditor(root) {
+function updateEditorCounter(limitConfig) {
+  if (!limitConfig) return;
+  const editor = document.querySelector(limitConfig.editorSelector);
+  const counter = document.querySelector(limitConfig.counterSelector);
+  if (!editor || !counter) return;
+
+  const textLength = stripHtml(editor.innerHTML || "").length;
+  counter.textContent = `${textLength}/${limitConfig.maxChars} ký tự`;
+  counter.classList.toggle("over-limit", textLength > limitConfig.maxChars);
+}
+
+function updateAllEditorCounters() {
+  Object.values(EDITOR_LIMITS).forEach((config) => updateEditorCounter(config));
+}
+
+function validateEditorLimit(limitConfig, textValue, toastSelector) {
+  if (!limitConfig) return true;
+  if (textValue.length <= limitConfig.maxChars) return true;
+  setToast(
+    toastSelector,
+    `${limitConfig.label} tối đa ${limitConfig.maxChars} ký tự. Hiện tại: ${textValue.length}.`,
+    true
+  );
+  return false;
+}
+
+function bindRichEditor(root, onChange) {
   const content = root.querySelector(".rich-content");
   const sizeSelect = root.querySelector("[data-editor-size]");
   if (!content) return;
 
   root.addEventListener("click", (event) => {
+    const clearBtn = event.target.closest("[data-editor-clear]");
+    if (clearBtn) {
+      content.textContent = content.textContent || "";
+      content.focus();
+      if (typeof onChange === "function") onChange();
+      return;
+    }
+
     const cmdBtn = event.target.closest("[data-editor-cmd]");
     if (!cmdBtn) return;
     const cmd = cmdBtn.getAttribute("data-editor-cmd");
     content.focus();
     document.execCommand(cmd, false);
+    if (typeof onChange === "function") onChange();
   });
 
   sizeSelect?.addEventListener("change", (event) => {
@@ -225,6 +287,11 @@ function bindRichEditor(root) {
     content.focus();
     document.execCommand("fontSize", false, size);
     event.target.value = "3";
+    if (typeof onChange === "function") onChange();
+  });
+
+  content.addEventListener("input", () => {
+    if (typeof onChange === "function") onChange();
   });
 }
 
@@ -268,10 +335,17 @@ function initAdminRolePanel() {
   const section = document.querySelector("#adminRoleSection");
   const tableBody = document.querySelector("#userRolesTableBody");
   if (!section || !tableBody) return;
+  if (currentRole !== "admin") {
+    section.classList.add("hidden");
+    return;
+  }
 
   section.classList.remove("hidden");
+  if (adminRolePanelInitialized) return;
+  adminRolePanelInitialized = true;
 
   watchUsers((snap) => {
+    if (currentRole !== "admin") return;
     const users = snap.docs
       .map((item) => ({ id: item.id, ...item.data() }))
       .sort((a, b) => (a.email || "").localeCompare(b.email || "", "vi"));
@@ -281,6 +355,12 @@ function initAdminRolePanel() {
   tableBody.addEventListener("change", async (event) => {
     const target = event.target.closest("[data-role-user]");
     if (!target) return;
+
+    if (currentRole !== "admin") {
+      setAdminToast("Chỉ admin mới có thể chỉnh quyền tài khoản.", true);
+      return;
+    }
+
     const userId = target.getAttribute("data-role-user");
     const nextRole = target.value;
     if (!userId || !nextRole) return;
@@ -306,6 +386,7 @@ function resetLessonForm() {
   document.querySelector("#lessonVisibleInput").checked = true;
   document.querySelector("#lessonSaveBtn").textContent = "Lưu bài giảng";
   setEditorHtml("#lessonDescriptionEditor", "");
+  updateEditorCounter(EDITOR_LIMITS.lesson);
 }
 
 function resetReferenceForm() {
@@ -315,6 +396,7 @@ function resetReferenceForm() {
   setEditorHtml("#referenceCitationEditor", "");
   document.querySelector("#referenceVisibleInput").checked = true;
   document.querySelector("#referenceSaveBtn").textContent = "Lưu tài liệu tham khảo";
+  updateEditorCounter(EDITOR_LIMITS.reference);
 }
 
 function resetExerciseForm() {
@@ -330,6 +412,7 @@ function resetExerciseForm() {
   document.querySelector("#exerciseVisibleInput").checked = true;
   document.querySelector("#exerciseSaveBtn").textContent = "Lưu bài tập";
   setEditorHtml("#exerciseDescriptionEditor", "");
+  updateEditorCounter(EDITOR_LIMITS.exercise);
 }
 
 function updateMetrics() {
@@ -502,6 +585,7 @@ async function handleLessonEdit(id) {
   document.querySelector("#lessonVisibleInput").checked = !!item.visible;
   document.querySelector("#lessonSaveBtn").textContent = "Cập nhật bài giảng";
   setEditorHtml("#lessonDescriptionEditor", item.descriptionHtml || item.description || "");
+  updateEditorCounter(EDITOR_LIMITS.lesson);
   setActiveTab("lesson");
 }
 
@@ -514,6 +598,7 @@ async function handleReferenceEdit(id) {
   setEditorHtml("#referenceCitationEditor", item.citationHtml || item.citation || "");
   document.querySelector("#referenceVisibleInput").checked = !!item.visible;
   document.querySelector("#referenceSaveBtn").textContent = "Cập nhật tài liệu";
+  updateEditorCounter(EDITOR_LIMITS.reference);
   setActiveTab("reference");
 }
 
@@ -532,6 +617,7 @@ async function handleExerciseEdit(id) {
   document.querySelector("#exerciseVisibleInput").checked = !!item.visible;
   document.querySelector("#exerciseSaveBtn").textContent = "Cập nhật bài tập";
   setEditorHtml("#exerciseDescriptionEditor", item.descriptionHtml || item.description || "");
+  updateEditorCounter(EDITOR_LIMITS.exercise);
   setActiveTab("exercise");
 }
 
@@ -553,6 +639,9 @@ async function bootstrap() {
     if (nextRole === "admin") {
       document.querySelector("#goStudentProfileBtn")?.classList.remove("hidden");
       initAdminRolePanel();
+    } else {
+      document.querySelector("#goStudentProfileBtn")?.classList.add("hidden");
+      document.querySelector("#adminRoleSection")?.classList.add("hidden");
     }
   });
 
@@ -596,13 +685,14 @@ async function bootstrap() {
     const description = getEditorPayload("#lessonDescriptionEditor");
 
     if (!title) return setToast("#lessonToast", "Vui lòng nhập tiêu đề bài giảng.", true);
-    if (!Boolean(videoUrl || docUrl || pptUrl || pdfUrl || pptFile || pdfFile)) {
+    if (!(videoUrl || docUrl || pptUrl || pdfUrl || pptFile || pdfFile)) {
       return setToast("#lessonToast", "Bài giảng cần ít nhất 1 tài nguyên.", true);
     }
     if (!isLikelyPowerPointUrl(pptUrl)) return setToast("#lessonToast", "Link PowerPoint chưa hợp lệ.", true);
     if (!isLikelyPdfUrl(pdfUrl)) return setToast("#lessonToast", "Link PDF chưa hợp lệ.", true);
     if (!isPowerPointFile(pptFile)) return setToast("#lessonToast", "File PPT chỉ nhận .ppt/.pptx.", true);
     if (!isPdfFile(pdfFile)) return setToast("#lessonToast", "File PDF chỉ nhận .pdf.", true);
+    if (!validateEditorLimit(EDITOR_LIMITS.lesson, description.text, "#lessonToast")) return;
 
     try {
       if (pptFile) {
@@ -651,6 +741,7 @@ async function bootstrap() {
     if (!articleUrl) return setToast("#referenceToast", "Vui lòng nhập link bài thông tư.", true);
     if (!isLikelyExternalUrl(articleUrl)) return setToast("#referenceToast", "Link bài thông tư chưa hợp lệ.", true);
     if (!citation.text) return setToast("#referenceToast", "Vui lòng nhập citation.", true);
+    if (!validateEditorLimit(EDITOR_LIMITS.reference, citation.text, "#referenceToast")) return;
 
     try {
       const payload = {
@@ -690,7 +781,7 @@ async function bootstrap() {
     const description = getEditorPayload("#exerciseDescriptionEditor");
 
     if (!title) return setToast("#exerciseToast", "Vui lòng nhập tiêu đề bài tập.", true);
-    if (!Boolean(youtubeUrl || docsUrl || pptUrl || pdfUrl || docsFile || pptFile || pdfFile)) {
+    if (!(youtubeUrl || docsUrl || pptUrl || pdfUrl || docsFile || pptFile || pdfFile)) {
       return setToast("#exerciseToast", "Bài tập cần ít nhất 1 trong 4 dạng: YouTube/PPT/PDF/Google Docs.", true);
     }
     if (!isLikelyDocsUrl(docsUrl)) return setToast("#exerciseToast", "Link Google Docs chưa hợp lệ.", true);
@@ -699,6 +790,7 @@ async function bootstrap() {
     if (!isDocsFile(docsFile)) return setToast("#exerciseToast", "File Docs chỉ nhận .doc/.docx.", true);
     if (!isPowerPointFile(pptFile)) return setToast("#exerciseToast", "File PPT chỉ nhận .ppt/.pptx.", true);
     if (!isPdfFile(pdfFile)) return setToast("#exerciseToast", "File PDF chỉ nhận .pdf.", true);
+    if (!validateEditorLimit(EDITOR_LIMITS.exercise, description.text, "#exerciseToast")) return;
 
     try {
       if (docsFile) {
@@ -797,9 +889,18 @@ async function bootstrap() {
   if (currentRole === "admin") {
     document.querySelector("#goStudentProfileBtn")?.classList.remove("hidden");
     initAdminRolePanel();
+  } else {
+    document.querySelector("#goStudentProfileBtn")?.classList.add("hidden");
+    document.querySelector("#adminRoleSection")?.classList.add("hidden");
   }
 
-  document.querySelectorAll(".rich-editor").forEach((root) => bindRichEditor(root));
+  document.querySelectorAll(".rich-editor").forEach((root) => {
+    const key = root.getAttribute("data-editor-root");
+    bindRichEditor(root, () => updateEditorCounter(EDITOR_LIMITS[key]));
+    updateEditorCounter(EDITOR_LIMITS[key]);
+  });
+
+  updateAllEditorCounters();
 
   setActiveTab("lesson");
 }

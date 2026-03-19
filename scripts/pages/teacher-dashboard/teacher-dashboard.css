@@ -153,6 +153,12 @@
   border-color: #94a3b8;
 }
 
+.rich-clear {
+  min-width: 52px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .rich-size {
   margin-left: auto;
   border: 1px solid #cbd5e1;
@@ -177,6 +183,18 @@
 .rich-content:empty::before {
   content: attr(data-placeholder);
   color: #94a3b8;
+}
+
+.editor-counter {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #64748b;
+  text-align: right;
+}
+
+.editor-counter.over-limit {
+  color: #b91c1c;
+  font-weight: 700;
 }
 
 .rich-text-preview {

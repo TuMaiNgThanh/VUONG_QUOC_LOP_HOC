@@ -108,6 +108,7 @@
                     <button type="button" class="rich-btn" data-editor-cmd="bold" title="In đậm"><strong>B</strong></button>
                     <button type="button" class="rich-btn" data-editor-cmd="italic" title="In nghiêng"><em>I</em></button>
                     <button type="button" class="rich-btn" data-editor-cmd="underline" title="Gạch dưới"><u>U</u></button>
+                    <button type="button" class="rich-btn rich-clear" data-editor-clear title="Xóa định dạng">Clear</button>
                     <select class="rich-size" data-editor-size title="Cỡ chữ">
                       <option value="3">Cỡ chữ</option>
                       <option value="2">Nhỏ</option>
@@ -118,6 +119,7 @@
                   </div>
                   <div id="lessonDescriptionEditor" class="rich-content" contenteditable="true" data-placeholder="Nhập mô tả bài giảng..."></div>
                 </div>
+                <p id="lessonDescriptionCounter" class="editor-counter">0/1200 ký tự</p>
               </div>
               <div class="md:col-span-2 flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-200">
                 <span class="text-sm font-semibold">Cho học sinh xem ngay</span>
@@ -148,6 +150,7 @@
                     <button type="button" class="rich-btn" data-editor-cmd="bold" title="In đậm"><strong>B</strong></button>
                     <button type="button" class="rich-btn" data-editor-cmd="italic" title="In nghiêng"><em>I</em></button>
                     <button type="button" class="rich-btn" data-editor-cmd="underline" title="Gạch dưới"><u>U</u></button>
+                    <button type="button" class="rich-btn rich-clear" data-editor-clear title="Xóa định dạng">Clear</button>
                     <select class="rich-size" data-editor-size title="Cỡ chữ">
                       <option value="3">Cỡ chữ</option>
                       <option value="2">Nhỏ</option>
@@ -158,6 +161,7 @@
                   </div>
                   <div id="referenceCitationEditor" class="rich-content" contenteditable="true" data-placeholder="Nguồn trích dẫn, ghi chú ngắn..." required></div>
                 </div>
+                <p id="referenceCitationCounter" class="editor-counter">0/600 ký tự</p>
               </div>
               <div class="md:col-span-2 flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-200">
                 <span class="text-sm font-semibold">Cho học sinh xem ngay</span>
@@ -206,6 +210,7 @@
                     <button type="button" class="rich-btn" data-editor-cmd="bold" title="In đậm"><strong>B</strong></button>
                     <button type="button" class="rich-btn" data-editor-cmd="italic" title="In nghiêng"><em>I</em></button>
                     <button type="button" class="rich-btn" data-editor-cmd="underline" title="Gạch dưới"><u>U</u></button>
+                    <button type="button" class="rich-btn rich-clear" data-editor-clear title="Xóa định dạng">Clear</button>
                     <select class="rich-size" data-editor-size title="Cỡ chữ">
                       <option value="3">Cỡ chữ</option>
                       <option value="2">Nhỏ</option>
@@ -216,6 +221,7 @@
                   </div>
                   <div id="exerciseDescriptionEditor" class="rich-content" contenteditable="true" data-placeholder="Nhập mô tả bài tập..."></div>
                 </div>
+                <p id="exerciseDescriptionCounter" class="editor-counter">0/1200 ký tự</p>
               </div>
               <div class="md:col-span-2 flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-200">
                 <span class="text-sm font-semibold">Cho học sinh xem ngay</span>

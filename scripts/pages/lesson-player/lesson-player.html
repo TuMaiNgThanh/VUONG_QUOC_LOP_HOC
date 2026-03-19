@@ -80,6 +80,7 @@
             <button type="button" class="comment-toolbar-btn" data-comment-cmd="bold" title="In đậm"><strong>B</strong></button>
             <button type="button" class="comment-toolbar-btn" data-comment-cmd="italic" title="In nghiêng"><em>I</em></button>
             <button type="button" class="comment-toolbar-btn" data-comment-cmd="underline" title="Gạch dưới"><u>U</u></button>
+            <button type="button" class="comment-toolbar-btn comment-clear" data-comment-clear title="Xóa định dạng">Clear</button>
             <select id="commentFontSize" class="comment-size" title="Cỡ chữ">
               <option value="3">Cỡ chữ</option>
               <option value="2">Nhỏ</option>
@@ -87,6 +88,10 @@
               <option value="4">Lớn</option>
               <option value="5">Rất lớn</option>
             </select>
+          </div>
+          <div id="replyState" class="reply-state hidden">
+            <p id="replyStateText" class="reply-state-text"></p>
+            <button id="cancelReplyBtn" type="button" class="reply-cancel-btn">Hủy reply</button>
           </div>
           <div class="comment-form-row">
             <div id="commentInput" class="comment-editor" contenteditable="true" data-placeholder="Gửi bình luận..."></div>

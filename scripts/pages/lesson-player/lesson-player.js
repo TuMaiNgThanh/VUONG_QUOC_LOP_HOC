@@ -15,6 +15,9 @@ const FONT_SIZE_MAP = {
   7: "32px"
 };
 
+let currentReplyTarget = null;
+let commentsLookup = new Map();
+
 function escapeHtml(value) {
   return String(value || "")
     .replace(/&/g, "&amp;")
@@ -94,6 +97,56 @@ function getCommentEditorPayload() {
   return { html: safeHtml, text: stripHtml(safeHtml) };
 }
 
+function getCommentLink(commentId) {
+  const current = new URL(window.location.href);
+  current.hash = `comment-${commentId}`;
+  return current.toString();
+}
+
+function updateReplyState() {
+  const replyState = document.querySelector("#replyState");
+  const replyStateText = document.querySelector("#replyStateText");
+  const editor = document.querySelector("#commentInput");
+  if (!replyState || !replyStateText) return;
+
+  if (!currentReplyTarget) {
+    replyState.classList.add("hidden");
+    replyStateText.textContent = "";
+    if (editor) editor.dataset.placeholder = "Gửi bình luận...";
+    return;
+  }
+
+  replyState.classList.remove("hidden");
+  replyStateText.textContent = `Đang reply ${currentReplyTarget.userName || "Người dùng"}`;
+  if (editor) editor.dataset.placeholder = `Reply ${currentReplyTarget.userName || "Người dùng"}...`;
+}
+
+function setReplyTarget(comment) {
+  if (!comment?.id) return;
+  currentReplyTarget = {
+    id: comment.id,
+    userName: comment.userName || "Người dùng"
+  };
+  updateReplyState();
+  document.querySelector("#commentInput")?.focus();
+}
+
+function clearReplyTarget() {
+  currentReplyTarget = null;
+  updateReplyState();
+}
+
+async function copyCommentLink(commentId) {
+  if (!commentId) return;
+  const link = getCommentLink(commentId);
+  try {
+    await navigator.clipboard.writeText(link);
+    return;
+  } catch {
+    window.prompt("Sao chép link bình luận", link);
+  }
+}
+
 function bindCommentToolbar() {
   const form = document.querySelector("#commentForm");
   const editor = document.querySelector("#commentInput");
@@ -101,6 +154,13 @@ function bindCommentToolbar() {
   if (!form || !editor) return;
 
   form.addEventListener("click", (event) => {
+    const clearBtn = event.target.closest("[data-comment-clear]");
+    if (clearBtn) {
+      editor.textContent = stripHtml(editor.innerHTML || "");
+      editor.focus();
+      return;
+    }
+
     const btn = event.target.closest("[data-comment-cmd]");
     if (!btn) return;
     const cmd = btn.getAttribute("data-comment-cmd");
@@ -124,23 +184,58 @@ function renderComments(comments) {
   const node = document.querySelector("#commentsList");
   if (!node) return;
 
+  commentsLookup = new Map(comments.map((comment) => [comment.id, comment]));
+
   if (comments.length === 0) {
     node.innerHTML = "<p class='text-sm text-slate-400'>Chưa có bình luận nào.</p>";
     return;
   }
 
-  node.innerHTML = comments
-    .map((comment) => {
-      const safeRich = normalizeRichValue(comment.textHtml || comment.text || "");
-      return `
-      <div class="comment-item">
-        <p class="comment-author">${comment.userName || "Người dùng"}</p>
-        <div class="comment-text comment-rich">${safeRich}</div>
-      </div>`;
-    })
-    .join("");
+  const byParentId = new Map();
+  const appendToParent = (parentId, comment) => {
+    if (!byParentId.has(parentId)) byParentId.set(parentId, []);
+    byParentId.get(parentId).push(comment);
+  };
 
-  node.scrollTop = node.scrollHeight;
+  comments.forEach((comment) => {
+    const parentId = comment.replyToId && commentsLookup.has(comment.replyToId) ? comment.replyToId : "root";
+    appendToParent(parentId, comment);
+  });
+
+  const renderThread = (parentId, depth) => {
+    const rows = byParentId.get(parentId) || [];
+    return rows
+      .map((comment) => {
+        const safeRich = normalizeRichValue(comment.textHtml || comment.text || "");
+        const safeName = escapeHtml(comment.userName || "Người dùng");
+        const depthLevel = Math.min(depth, 4);
+        const replyRef = comment.replyToUserName ? `<p class="comment-reply-ref">Reply ${escapeHtml(comment.replyToUserName)}</p>` : "";
+
+        const html = `
+          <div id="comment-${comment.id}" class="comment-item" style="--comment-depth:${depthLevel}">
+            <p class="comment-author">${safeName}</p>
+            ${replyRef}
+            <div class="comment-text comment-rich">${safeRich}</div>
+            <div class="comment-actions">
+              <button type="button" class="comment-action-btn" data-comment-reply-id="${comment.id}">Reply</button>
+              <button type="button" class="comment-action-btn" data-comment-copy-id="${comment.id}">Copy link</button>
+            </div>
+          </div>`;
+
+        return `${html}${renderThread(comment.id, depth + 1)}`;
+      })
+      .join("");
+  };
+
+  node.innerHTML = renderThread("root", 0);
+
+  const hashId = (window.location.hash || "").replace(/^#/, "");
+  const anchor = hashId ? document.getElementById(hashId) : null;
+  if (anchor) {
+    anchor.scrollIntoView({ behavior: "smooth", block: "center" });
+  } else {
+    node.scrollTop = node.scrollHeight;
+  }
 }
 
 async function bootstrap() {
@@ -170,9 +265,12 @@ async function bootstrap() {
   const resourceLinks = document.querySelector("#resourceLinks");
   const commentForm = document.querySelector("#commentForm");
   const commentInput = document.querySelector("#commentInput");
+  const commentsList = document.querySelector("#commentsList");
+  const cancelReplyBtn = document.querySelector("#cancelReplyBtn");
   const logoutBtn = document.querySelector("#logoutBtn");
 
   bindCommentToolbar();
+  updateReplyState();
 
   titleNode.textContent = lesson.title || "Bài giảng";
   metaNode.textContent = `GV: ${lesson.teacherName || "Teacher"}`;
@@ -223,18 +321,47 @@ async function bootstrap() {
     window.location.href = "../login/login.html";
   });
 
+  cancelReplyBtn?.addEventListener("click", () => {
+    clearReplyTarget();
+  });
+
+  commentsList?.addEventListener("click", async (event) => {
+    const replyBtn = event.target.closest("[data-comment-reply-id]");
+    if (replyBtn) {
+      const replyId = replyBtn.getAttribute("data-comment-reply-id");
+      const replyComment = commentsLookup.get(replyId);
+      if (replyComment) setReplyTarget(replyComment);
+      return;
+    }
+
+    const copyBtn = event.target.closest("[data-comment-copy-id]");
+    if (copyBtn) {
+      const commentId = copyBtn.getAttribute("data-comment-copy-id");
+      await copyCommentLink(commentId);
+    }
+  });
+
   commentForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
     const textPayload = getCommentEditorPayload();
     if (!textPayload.text) return;
+    const replyPayload = currentReplyTarget
+      ? {
+          replyToId: currentReplyTarget.id,
+          replyToUserName: currentReplyTarget.userName
+        }
+      : {};
+
     await addLessonComment(lessonId, {
       text: textPayload.text,
       textHtml: textPayload.html,
       userId: user.uid,
       userName: user.displayName || "Học viên",
-      userPhoto: user.photoURL || ""
+      userPhoto: user.photoURL || "",
+      ...replyPayload
     });
     commentInput.innerHTML = "";
+    clearReplyTarget();
   });
 
   watchLessonComments(lessonId, (snap) => {

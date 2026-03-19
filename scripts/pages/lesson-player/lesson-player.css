@@ -12,6 +12,7 @@ body {
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 10px 12px;
+  margin-left: calc(var(--comment-depth, 0) * 14px);
 }
 
 .comment-author {
@@ -45,6 +46,12 @@ body {
   border-color: #94a3b8;
 }
 
+.comment-clear {
+  min-width: 54px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .comment-size {
   margin-left: auto;
   border: 1px solid #cbd5e1;
@@ -60,6 +67,64 @@ body {
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+.comment-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.comment-action-btn {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #334155;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+
+.comment-action-btn:hover {
+  border-color: #94a3b8;
+}
+
+.comment-reply-ref {
+  margin: 0 0 6px;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.reply-state {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid #c7d2fe;
+  border-radius: 10px;
+  background: #eef2ff;
+  padding: 7px 10px;
+}
+
+.reply-state.hidden {
+  display: none;
+}
+
+.reply-state-text {
+  margin: 0;
+  font-size: 12px;
+  color: #3730a3;
+  font-weight: 700;
+}
+
+.reply-cancel-btn {
+  border: 0;
+  background: transparent;
+  color: #3730a3;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .comment-editor {

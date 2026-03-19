@@ -304,6 +304,8 @@ async function bootstrap() {
   const goProfileBtn = document.querySelector("#goProfileBtn");
   const goQuestBtn = document.querySelector("#goQuestBtn");
   const goMapBtn = document.querySelector("#goMapBtn");
+  const teacherPreviewBanner = document.querySelector("#teacherPreviewBanner");
+  const backToTeacherDashboardBtn = document.querySelector("#backToTeacherDashboardBtn");
   const sectionLessonBtn = document.querySelector("#sectionLessonBtn");
   const sectionReferenceBtn = document.querySelector("#sectionReferenceBtn");
   const sectionExerciseBtn = document.querySelector("#sectionExerciseBtn");
@@ -322,6 +324,12 @@ async function bootstrap() {
   });
 
   if (previewMode) {
+    if (currentRole === "teacher" || currentRole === "admin") {
+      teacherPreviewBanner?.classList.remove("hidden");
+      backToTeacherDashboardBtn?.addEventListener("click", () => {
+        window.location.href = "../teacher-dashboard/teacher-dashboard.html";
+      });
+    }
     goHomeBtnTextFix();
   }
 
