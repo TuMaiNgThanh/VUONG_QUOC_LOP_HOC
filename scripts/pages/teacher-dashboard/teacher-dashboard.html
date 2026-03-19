@@ -1,0 +1,315 @@
+﻿<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Classroom Kingdom - Dashboard Giáo viên</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#6467f2", accent: "#f59e0b" },
+            fontFamily: { display: ["Inter", "sans-serif"] }
+          }
+        }
+      };
+    </script>
+    <link rel="stylesheet" href="./teacher-dashboard.css" />
+  </head>
+  <body class="bg-slate-100 text-slate-900 font-display min-h-screen">
+    <header class="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/90 backdrop-blur-md">
+      <div class="max-w-7xl mx-auto px-4 min-h-16 py-2 flex items-center justify-between gap-3 flex-wrap">
+        <div class="flex items-center gap-3">
+          <div class="bg-primary p-1.5 rounded-lg text-white"><span class="material-symbols-outlined">castle</span></div>
+          <h2 class="text-xl font-bold tracking-tight text-primary">Classroom Kingdom</h2>
+        </div>
+        <div class="teacher-header-actions flex items-center gap-2 flex-wrap justify-end">
+          <button id="goStudentLibraryBtn" class="px-3 py-2 rounded-lg bg-amber-100 text-amber-700 text-sm font-semibold">Tư cách học sinh</button>
+          <button id="goStudentProfileBtn" class="hidden px-3 py-2 rounded-lg bg-sky-100 text-sky-700 text-sm font-semibold">Hồ sơ học sinh</button>
+          <button id="goPlanDashboardBtn" class="px-3 py-2 rounded-lg bg-indigo-100 text-indigo-700 text-sm font-semibold">Dashboard giáo án</button>
+          <button id="goProfileBtn" class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-sm font-semibold">Hồ sơ</button>
+          <button id="logoutBtn" class="p-2 text-slate-500 hover:text-red-500" title="Đăng xuất"><span class="material-symbols-outlined">logout</span></button>
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8">
+      <aside class="space-y-4">
+        <div class="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+          <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Thống kê nội dung</p>
+          <div class="space-y-4">
+            <article class="overview-card !p-0 !border-none !shadow-none !rounded-none">
+              <div class="overview-icon bg-indigo-100 text-indigo-600"><span class="material-symbols-outlined">menu_book</span></div>
+              <p class="overview-label">Bài giảng</p>
+              <p id="metricLessons" class="overview-value">0</p>
+            </article>
+            <article class="overview-card !p-0 !border-none !shadow-none !rounded-none">
+              <div class="overview-icon bg-emerald-100 text-emerald-600"><span class="material-symbols-outlined">library_books</span></div>
+              <p class="overview-label">Tài liệu tham khảo</p>
+              <p id="metricReferences" class="overview-value">0</p>
+            </article>
+            <article class="overview-card !p-0 !border-none !shadow-none !rounded-none">
+              <div class="overview-icon bg-amber-100 text-amber-600"><span class="material-symbols-outlined">assignment</span></div>
+              <p class="overview-label">Bài tập</p>
+              <p id="metricExercises" class="overview-value">0</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="p-4 bg-primary/10 border border-primary/20 rounded-xl">
+          <p class="text-sm font-semibold text-primary mb-1 italic">"Đăng đúng nơi, đúng dạng, giáo viên sẽ nhẹ việc hơn."</p>
+          <p class="text-xs text-primary/70">- Teacher Toolkit</p>
+        </div>
+      </aside>
+
+      <main class="space-y-6">
+        <section class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="p-4 border-b border-slate-100 flex flex-wrap gap-2">
+            <button class="composer-tab active" data-tab="lesson">Đăng bài giảng</button>
+            <button class="composer-tab" data-tab="reference">Đăng tài liệu tham khảo</button>
+            <button class="composer-tab" data-tab="exercise">Đăng bài tập</button>
+          </div>
+
+          <div class="p-6">
+            <form id="lessonComposer" class="composer-form grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="md:col-span-2">
+                <label class="block text-sm font-semibold mb-1">Tiêu đề bài giảng</label>
+                <input id="lessonTitleInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="Ví dụ: Thuật giả kim căn bản" required />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1">YouTube URL</label>
+                <input id="lessonVideoInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="https://youtube.com/watch?v=..." />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1">Google Drive URL</label>
+                <input id="lessonDocInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="https://drive.google.com/..." />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1">PowerPoint URL</label>
+                <input id="lessonPptInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="https://.../slide.pptx" />
+                <label class="block text-xs text-slate-500 mt-2 mb-1">Hoặc tải file PPT</label>
+                <input id="lessonPptFileInput" type="file" accept=".ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation" class="w-full bg-white border-slate-200 rounded-lg text-sm" />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1">PDF URL</label>
+                <input id="lessonPdfInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="https://.../tai-lieu.pdf" />
+                <label class="block text-xs text-slate-500 mt-2 mb-1">Hoặc tải file PDF</label>
+                <input id="lessonPdfFileInput" type="file" accept=".pdf,application/pdf" class="w-full bg-white border-slate-200 rounded-lg text-sm" />
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-sm font-semibold mb-1">Mô tả bài giảng</label>
+                <div class="rich-editor" data-editor-root="lesson">
+                  <div class="rich-toolbar" role="toolbar" aria-label="Định dạng mô tả bài giảng">
+                    <button type="button" class="rich-btn" data-editor-cmd="bold" title="In đậm"><strong>B</strong></button>
+                    <button type="button" class="rich-btn" data-editor-cmd="italic" title="In nghiêng"><em>I</em></button>
+                    <button type="button" class="rich-btn" data-editor-cmd="underline" title="Gạch dưới"><u>U</u></button>
+                    <select class="rich-size" data-editor-size title="Cỡ chữ">
+                      <option value="3">Cỡ chữ</option>
+                      <option value="2">Nhỏ</option>
+                      <option value="3">Vừa</option>
+                      <option value="4">Lớn</option>
+                      <option value="5">Rất lớn</option>
+                    </select>
+                  </div>
+                  <div id="lessonDescriptionEditor" class="rich-content" contenteditable="true" data-placeholder="Nhập mô tả bài giảng..."></div>
+                </div>
+              </div>
+              <div class="md:col-span-2 flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="text-sm font-semibold">Cho học sinh xem ngay</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input id="lessonVisibleInput" type="checkbox" class="sr-only peer" checked />
+                  <div class="w-11 h-6 bg-slate-200 rounded-full peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:bg-white after:rounded-full after:transition-all peer-checked:after:translate-x-full"></div>
+                </label>
+              </div>
+              <div class="md:col-span-2 flex justify-end gap-2">
+                <button id="lessonSaveBtn" type="submit" class="px-6 py-2.5 rounded-lg bg-primary text-white text-sm font-bold">Lưu bài giảng</button>
+              </div>
+              <p id="lessonToast" class="md:col-span-2 text-sm text-slate-500"></p>
+            </form>
+
+            <form id="referenceComposer" class="composer-form hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="md:col-span-2">
+                <label class="block text-sm font-semibold mb-1">Tiêu đề tài liệu tham khảo</label>
+                <input id="referenceTitleInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="Ví dụ: Tài liệu ngữ pháp nâng cao" required />
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-sm font-semibold mb-1">Link bài thông tư / tài liệu</label>
+                <input id="referenceArticleInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="https://..." required />
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-sm font-semibold mb-1">Citation</label>
+                <div class="rich-editor" data-editor-root="reference">
+                  <div class="rich-toolbar" role="toolbar" aria-label="Định dạng citation">
+                    <button type="button" class="rich-btn" data-editor-cmd="bold" title="In đậm"><strong>B</strong></button>
+                    <button type="button" class="rich-btn" data-editor-cmd="italic" title="In nghiêng"><em>I</em></button>
+                    <button type="button" class="rich-btn" data-editor-cmd="underline" title="Gạch dưới"><u>U</u></button>
+                    <select class="rich-size" data-editor-size title="Cỡ chữ">
+                      <option value="3">Cỡ chữ</option>
+                      <option value="2">Nhỏ</option>
+                      <option value="3">Vừa</option>
+                      <option value="4">Lớn</option>
+                      <option value="5">Rất lớn</option>
+                    </select>
+                  </div>
+                  <div id="referenceCitationEditor" class="rich-content" contenteditable="true" data-placeholder="Nguồn trích dẫn, ghi chú ngắn..." required></div>
+                </div>
+              </div>
+              <div class="md:col-span-2 flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="text-sm font-semibold">Cho học sinh xem ngay</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input id="referenceVisibleInput" type="checkbox" class="sr-only peer" checked />
+                  <div class="w-11 h-6 bg-slate-200 rounded-full peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:bg-white after:rounded-full after:transition-all peer-checked:after:translate-x-full"></div>
+                </label>
+              </div>
+              <div class="md:col-span-2 flex justify-end gap-2">
+                <button id="referenceSaveBtn" type="submit" class="px-6 py-2.5 rounded-lg bg-primary text-white text-sm font-bold">Lưu tài liệu tham khảo</button>
+              </div>
+              <p id="referenceToast" class="md:col-span-2 text-sm text-slate-500"></p>
+            </form>
+
+            <form id="exerciseComposer" class="composer-form hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="md:col-span-2">
+                <label class="block text-sm font-semibold mb-1">Tiêu đề bài tập</label>
+                <input id="exerciseTitleInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="Ví dụ: Bài tập thì hiện tại đơn" required />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1">YouTube URL</label>
+                <input id="exerciseYoutubeInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="https://youtube.com/watch?v=..." />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1">Google Docs URL</label>
+                <input id="exerciseDocsInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="https://docs.google.com/..." />
+                <label class="block text-xs text-slate-500 mt-2 mb-1">Hoặc tải file Docs (.doc/.docx)</label>
+                <input id="exerciseDocsFileInput" type="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="w-full bg-white border-slate-200 rounded-lg text-sm" />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1">PowerPoint URL</label>
+                <input id="exercisePptInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="https://.../exercise.pptx" />
+                <label class="block text-xs text-slate-500 mt-2 mb-1">Hoặc tải file PPT</label>
+                <input id="exercisePptFileInput" type="file" accept=".ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation" class="w-full bg-white border-slate-200 rounded-lg text-sm" />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1">PDF URL</label>
+                <input id="exercisePdfInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="https://.../exercise.pdf" />
+                <label class="block text-xs text-slate-500 mt-2 mb-1">Hoặc tải file PDF</label>
+                <input id="exercisePdfFileInput" type="file" accept=".pdf,application/pdf" class="w-full bg-white border-slate-200 rounded-lg text-sm" />
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-sm font-semibold mb-1">Mô tả bài tập</label>
+                <div class="rich-editor" data-editor-root="exercise">
+                  <div class="rich-toolbar" role="toolbar" aria-label="Định dạng mô tả bài tập">
+                    <button type="button" class="rich-btn" data-editor-cmd="bold" title="In đậm"><strong>B</strong></button>
+                    <button type="button" class="rich-btn" data-editor-cmd="italic" title="In nghiêng"><em>I</em></button>
+                    <button type="button" class="rich-btn" data-editor-cmd="underline" title="Gạch dưới"><u>U</u></button>
+                    <select class="rich-size" data-editor-size title="Cỡ chữ">
+                      <option value="3">Cỡ chữ</option>
+                      <option value="2">Nhỏ</option>
+                      <option value="3">Vừa</option>
+                      <option value="4">Lớn</option>
+                      <option value="5">Rất lớn</option>
+                    </select>
+                  </div>
+                  <div id="exerciseDescriptionEditor" class="rich-content" contenteditable="true" data-placeholder="Nhập mô tả bài tập..."></div>
+                </div>
+              </div>
+              <div class="md:col-span-2 flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="text-sm font-semibold">Cho học sinh xem ngay</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input id="exerciseVisibleInput" type="checkbox" class="sr-only peer" checked />
+                  <div class="w-11 h-6 bg-slate-200 rounded-full peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:bg-white after:rounded-full after:transition-all peer-checked:after:translate-x-full"></div>
+                </label>
+              </div>
+              <div class="md:col-span-2 flex justify-end gap-2">
+                <button id="exerciseSaveBtn" type="submit" class="px-6 py-2.5 rounded-lg bg-primary text-white text-sm font-bold">Lưu bài tập</button>
+              </div>
+              <p id="exerciseToast" class="md:col-span-2 text-sm text-slate-500"></p>
+            </form>
+          </div>
+        </section>
+
+        <section id="adminRoleSection" class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden hidden">
+          <div class="p-6 border-b border-slate-100">
+            <h3 class="text-xl font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary">admin_panel_settings</span>Quản lý quyền tài khoản</h3>
+            <p class="text-sm text-slate-500 mt-1">Tài khoản admin có thể cấp hoặc đổi quyền giữa giáo viên và học sinh.</p>
+          </div>
+          <div class="p-6">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead>
+                  <tr class="bg-slate-50 border-b border-slate-100">
+                    <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400">Email</th>
+                    <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400">Tên hiển thị</th>
+                    <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400">Quyền hiện tại</th>
+                    <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400">Đổi quyền</th>
+                  </tr>
+                </thead>
+                <tbody id="userRolesTableBody" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+            <p id="adminToast" class="text-sm mt-3 text-slate-500"></p>
+          </div>
+        </section>
+
+        <section class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+            <h3 class="text-lg font-bold">Danh sách nội dung đã đăng</h3>
+            <span id="contentCount" class="text-xs font-bold px-2 py-1 rounded bg-slate-200 text-slate-700">0 mục</span>
+          </div>
+
+          <div id="lessonListSection" class="content-list-section overflow-x-auto">
+            <table class="w-full text-left">
+              <thead>
+                <tr class="bg-slate-50 border-b border-slate-100">
+                  <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400">Bài giảng</th>
+                  <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400">Trạng thái</th>
+                  <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400">Ngày tạo</th>
+                  <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400 text-right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="lessonsTableBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+
+          <div id="referenceListSection" class="content-list-section hidden overflow-x-auto">
+            <table class="w-full text-left">
+              <thead>
+                <tr class="bg-slate-50 border-b border-slate-100">
+                  <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400">Tài liệu tham khảo</th>
+                  <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400">Trạng thái</th>
+                  <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400">Ngày tạo</th>
+                  <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400 text-right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="referencesTableBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+
+          <div id="exerciseListSection" class="content-list-section hidden overflow-x-auto">
+            <table class="w-full text-left">
+              <thead>
+                <tr class="bg-slate-50 border-b border-slate-100">
+                  <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400">Bài tập</th>
+                  <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400">Trạng thái</th>
+                  <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400">Ngày tạo</th>
+                  <th class="px-4 py-3 text-xs font-bold uppercase text-slate-400 text-right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="exercisesTableBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="py-8 border-t border-slate-200 text-center text-sm text-slate-400">
+      2026 Classroom Kingdom. Teacher Content Studio.
+    </footer>
+
+    <script type="module" src="./teacher-dashboard.js"></script>
+  </body>
+</html>

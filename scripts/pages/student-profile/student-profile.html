@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hồ sơ cá nhân - Classroom Kingdom</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#6467f2"
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"]
+            }
+          }
+        }
+      };
+    </script>
+    <link rel="stylesheet" href="./student-profile.css" />
+  </head>
+  <body class="bg-slate-100 text-slate-900 font-display min-h-screen">
+    <div class="ambient-glow ambient-glow-a"></div>
+    <div class="ambient-glow ambient-glow-b"></div>
+
+    <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur-md">
+      <div class="max-w-6xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between gap-3 flex-wrap">
+        <div class="flex items-center gap-3">
+          <div class="size-10 bg-primary rounded-xl text-white flex items-center justify-center">
+            <span class="material-symbols-outlined">person</span>
+          </div>
+          <div>
+            <h1 class="text-lg md:text-xl font-black">Hồ sơ cá nhân</h1>
+            <p id="profileSubTitle" class="text-xs md:text-sm text-slate-500">Đang tải thông tin người dùng...</p>
+          </div>
+        </div>
+        <div class="profile-header-actions flex items-center gap-2 md:gap-3 flex-wrap justify-end">
+          <button id="goHomeBtn" class="px-3 py-2 rounded-lg bg-slate-100 text-sm font-semibold">Trang chính</button>
+          <button id="goTeamBtn" class="px-3 py-2 rounded-lg bg-primary/10 text-primary text-sm font-semibold">Leaderboard</button>
+          <button id="logoutBtn" class="px-3 py-2 rounded-lg bg-slate-900 text-white text-sm font-semibold">Đăng xuất</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-8 relative z-10">
+      <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <article class="profile-card lg:col-span-2">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+            <img id="avatar" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg" src="https://placehold.co/128x128/e2e8f0/0f172a?text=CK" alt="Avatar" />
+            <div class="flex-1">
+              <h2 id="displayName" class="text-2xl font-black">Đang tải...</h2>
+              <p id="email" class="text-sm text-slate-500 mt-1">...</p>
+              <div class="mt-3 flex items-center gap-2">
+                <span id="roleBadge" class="inline-flex px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700">Student</span>
+                <span id="joinedBadge" class="inline-flex px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-600">Moi tham gia</span>
+              </div>
+            </div>
+            <div class="text-left sm:text-right">
+              <p class="text-xs uppercase tracking-wide text-slate-500 font-bold">Điểm cá nhân</p>
+              <p id="pointText" class="text-3xl font-black text-primary">0 XP</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="profile-card">
+          <p class="text-xs uppercase tracking-wide text-slate-500 font-bold mb-2">Cấp độ vương quốc</p>
+          <p id="rankText" class="text-2xl font-black mb-2">#-</p>
+          <p id="rankHint" class="text-sm text-slate-500">Đang cập nhật bảng xếp hạng...</p>
+          <div class="mt-4 h-2 rounded-full bg-slate-200 overflow-hidden">
+            <div id="rankProgress" class="h-2 rounded-full bg-primary" style="width: 0%"></div>
+          </div>
+          <p id="rankProgressText" class="text-xs text-slate-500 mt-2">0% tiến độ đến hạng tiếp theo</p>
+        </article>
+      </section>
+
+      <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+        <article class="metric-card">
+          <p class="metric-label">Tổng bài học</p>
+          <p id="metricTotalLessons" class="metric-value">0</p>
+        </article>
+        <article class="metric-card">
+          <p class="metric-label">Bài học đang công khai</p>
+          <p id="metricVisibleLessons" class="metric-value">0</p>
+        </article>
+        <article class="metric-card">
+          <p class="metric-label">Thành viên trong hệ</p>
+          <p id="metricMembers" class="metric-value">0</p>
+        </article>
+        <article class="metric-card">
+          <p class="metric-label">Vai trò hiện tại</p>
+          <p id="metricRole" class="metric-value">Student</p>
+        </article>
+      </section>
+
+      <section class="profile-card">
+        <div class="flex items-center justify-between gap-3 mb-3">
+          <h3 class="text-lg font-extrabold">Tóm tắt hoạt động</h3>
+          <span class="inline-flex px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary">Realtime</span>
+        </div>
+        <ul id="activityList" class="space-y-3 text-sm text-slate-600"></ul>
+      </section>
+
+      <section class="profile-card mt-6">
+        <div class="flex items-center justify-between gap-3 mb-4">
+          <h3 class="text-lg font-extrabold">Chỉnh sửa hồ sơ</h3>
+          <span class="inline-flex px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-600">Firestore</span>
+        </div>
+        <form id="profileEditForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold mb-1" for="profileDisplayNameInput">Tên hiển thị</label>
+            <input id="profileDisplayNameInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="Tên hiển thị" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1" for="profilePhoneInput">Số điện thoại</label>
+            <input id="profilePhoneInput" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="0900 000 000" />
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold mb-1" for="profileBioInput">Giới thiệu ngắn</label>
+            <textarea id="profileBioInput" rows="3" class="w-full bg-slate-50 border-slate-200 rounded-lg" placeholder="Mô tả ngắn về bạn..."></textarea>
+          </div>
+          <div class="md:col-span-2 flex items-center justify-end gap-2">
+            <button id="profileSaveBtn" type="submit" class="px-4 py-2 rounded-lg bg-primary text-white text-sm font-bold">Lưu hồ sơ</button>
+          </div>
+          <p id="profileEditToast" class="md:col-span-2 text-sm text-slate-500"></p>
+        </form>
+      </section>
+    </main>
+
+    <script type="module" src="./student-profile.js"></script>
+  </body>
+</html>
